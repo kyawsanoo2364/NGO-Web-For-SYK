@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-partnership {
+  background-image: "/partnershipBg.avif";
+}
+html {
+  scroll-behavior: smooth;
+}
