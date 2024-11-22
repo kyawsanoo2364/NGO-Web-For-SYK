@@ -6,6 +6,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { useState } from "react";
 import { useAuthStore } from "../store/AuthStore";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { ModleView } from "../hoc";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -75,4 +76,4 @@ const ForgotPassword = () => {
     </div>
   );
 };
-export default ForgotPassword;
+export default ModleView(ForgotPassword);

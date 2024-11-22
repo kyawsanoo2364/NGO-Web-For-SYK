@@ -3,10 +3,23 @@ import { FaHome } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ModleView } from "../hoc";
+import { useEventStore } from "../store/EventStore";
+import { formatTime } from "../utils";
+import moment from "moment";
+import parser from "html-react-parser";
 
 const Events = () => {
+  const { events, getEvents } = useEventStore();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      await getEvents();
+      setIsLoading(false);
+    }
+    fetchData();
     document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   return (
@@ -27,35 +40,44 @@ const Events = () => {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 mt-3 mb-10 gap-2">
           {/** Near Day Event */}
-          <div className="w-full border p-4 flex flex-col">
-            <div className="w-full h-[300px] relative">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8hIFtAL38ddjo3ARtHem8e_LDi7zyyP64XA&s"
-                alt=""
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 right-0 text-xl font-bold text-white rounded p-4 bg-orange-400">
-                14 Oct 2024
-              </div>
+          {isLoading ? (
+            <div className="w-full border p-4 flex flex-col animate-pulse">
+              <div className="w-full h-[300px] bg-gray-200 rounded" />
+              <div className="w-[30%] h-5 bg-gray-200 mt-2 rounded" />
+              <div className="w-[60%] h-10 bg-gray-200 mt-2 rounded" />
             </div>
-            <div>
-              <div className="flex items-center gap-2 mt-2 text-slate-600 px-3 text-sm lg:text-lg">
-                <FaMapLocationDot /> Handarwadi Taungoo Bago Myanmar
+          ) : (
+            events && (
+              <div className="w-full border p-4 flex flex-col">
+                <div className="w-full h-[300px] relative">
+                  <img
+                    src={events[0]?.image}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 right-0 text-xl font-bold text-white rounded p-4 bg-orange-400">
+                    {moment(events[0].date).format("ll")}
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mt-2 text-slate-600 px-3 text-sm lg:text-lg">
+                    <FaMapLocationDot /> {events[0]?.location}
+                  </div>
+                  <div className="text-sm lg:text-lg flex items-center gap-2 mt-2 text-slate-600 px-3">
+                    <FaRegClock /> {formatTime(events[0]?.time)}
+                  </div>
+                  <div className="mt-2">
+                    <Link
+                      to={"/event/" + events[0]?._id}
+                      className="text-lg text-center font-bold lg:text-2xl hover:text-orange-500 cursor-pointer text-slate-600"
+                    >
+                      {events[0]?.title}
+                    </Link>
+                  </div>
+                </div>
               </div>
-              <div className="text-sm lg:text-lg flex items-center gap-2 mt-2 text-slate-600 px-3">
-                <FaRegClock /> 3pm - 5pm
-              </div>
-              <div className="mt-2">
-                <Link
-                  to={"/"}
-                  className="text-lg text-center font-bold lg:text-2xl hover:text-orange-500 cursor-pointer text-slate-600"
-                >
-                  Human Rights Watch, Save the Children, Anti-Slavery
-                  International, Equality Now
-                </Link>
-              </div>
-            </div>
-          </div>
+            )
+          )}
           {/**Other Events */}
           <div className="w-full border p-4 flex flex-col ">
             <h2 className="text-lg font-bold text-slate-600">
@@ -63,36 +85,48 @@ const Events = () => {
             </h2>
             <div className="mt-2 w-full h-full overflow-y-auto items-center flex flex-col pt-5 overflow-x-hidden max-h-[380px] gap-2">
               {/** here upcoming events */}
-              {[...new Array(10)].map((_, idx) => (
-                <Link
-                  key={"event-" + idx}
-                  to={"/"}
-                  className=" lg:max-w-[520px] lg:min-w-[520px] w-full p-4 border flex items-center shadow-sm gap-2"
-                >
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8hIFtAL38ddjo3ARtHem8e_LDi7zyyP64XA&s"
-                    className="w-[100px] h-[80px] lg:w-[200px] lg:h-[150px] object-cover rounded"
-                  />
-                  <div className="flex flex-col w-full">
-                    <h2 className="text-lg lg:text-xl hover:text-orange-400 cursor-pointer font-bold text-slate-600  line-clamp-1">
-                      Education for All Gala
-                    </h2>
-                    <p className="text-balance text-slate-500 pl-2 line-clamp-3 my-1 lg:text-[16px] text-sm">
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Est velit maxime ipsam necessitatibus exercitationem,
-                      dolorum animi corporis veritatis voluptate perferendis
-                      dignissimos voluptatem sint tempora distinctio dolorem
-                      dolore molestias dicta ad?
-                    </p>
-                    <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-700">
-                      <FaMapLocationDot /> Taungoo Bago Myanmar
-                    </p>
-                    <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-600">
-                      <FaRegClock /> 6am - 9am
-                    </p>
-                  </div>
-                </Link>
-              ))}
+              {isLoading
+                ? [...new Array(4)].map((_, idx) => (
+                    <div
+                      key={"event" + idx}
+                      className=" lg:max-w-[520px] lg:min-w-[520px] w-full p-4 border flex items-center shadow-sm gap-2 animate-pulse"
+                    >
+                      <div className="w-[100px] h-[80px] lg:w-[200px] lg:h-[150px] object-cover rounded bg-gray-200 " />
+                      <div className="flex flex-col w-full">
+                        <div className="w-[300px] h-5 bg-gray-200 rounded" />
+                        <div className="w-full h-14 bg-gray-200 rounded mt-2" />
+                        <div className="w-[250px] h-3 bg-gray-200 rounded mt-2" />
+                      </div>
+                    </div>
+                  ))
+                : events
+                    ?.filter((e) => e._id !== events[0]?._id)
+                    .map((event, idx) => (
+                      <Link
+                        key={"event-" + idx}
+                        to={"/event/" + event._id}
+                        className=" lg:max-w-[520px] lg:min-w-[520px] w-full p-4 border flex items-center shadow-sm gap-2"
+                      >
+                        <img
+                          src={event.image}
+                          className="w-[100px] h-[80px] lg:w-[200px] lg:h-[150px] object-cover rounded"
+                        />
+                        <div className="flex flex-col w-full">
+                          <h2 className="text-lg lg:text-xl hover:text-orange-400 cursor-pointer font-bold text-slate-600  line-clamp-1">
+                            {event.title}
+                          </h2>
+                          <p className="text-balance text-slate-500 pl-2 line-clamp-3 my-1 lg:text-[16px] text-sm">
+                            {parser(event.description)}
+                          </p>
+                          <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-700">
+                            <FaMapLocationDot /> {event.location}
+                          </p>
+                          <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-600">
+                            <FaRegClock /> {event.time}
+                          </p>
+                        </div>
+                      </Link>
+                    ))}
             </div>
           </div>
         </div>
@@ -100,4 +134,4 @@ const Events = () => {
     </div>
   );
 };
-export default Events;
+export default ModleView(Events);

@@ -1,8 +1,15 @@
 import { SectionWrapper } from "../../hoc";
+import { usePartnershipsStore } from "../../store/PartnershipsStore";
 import PartnershipCard from "../Cards/PartnershipCard";
 import { motion } from "framer-motion";
 
 const OurPartnership = ({ partnershipDescription }) => {
+  const { partnerships } = usePartnershipsStore();
+
+  if (!partnerships || partnerships?.length === 0) {
+    return null;
+  }
+
   return (
     <div className="w-full p-4 bg-slate-800 ">
       <motion.div
@@ -27,12 +34,12 @@ const OurPartnership = ({ partnershipDescription }) => {
         <div className="flex justify-center flex-wrap items-center gap-16 my-20 relative h-fit ">
           {/**Your Partnerships here */}
           {/**For example */}
-          {[...new Array(8)].map((_, idx) => (
+          {partnerships.map((p, idx) => (
             <PartnershipCard
               key={"partnership-" + idx}
-              logo={"/partnership.png"}
-              name={"MYEO"}
-              link={"https://mymyeo.com/"}
+              logo={p.imageUrl}
+              name={p.name}
+              link={p.webLink}
             />
           ))}
         </div>

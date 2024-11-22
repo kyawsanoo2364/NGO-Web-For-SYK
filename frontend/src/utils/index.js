@@ -55,3 +55,56 @@ export const ContactUs = {
     }
   },
 };
+
+export const handleCopyLink = (currentUrl) => {
+  navigator.clipboard.writeText(currentUrl);
+  toast.success("Copied Link!");
+};
+
+class SocialMedia {
+  constructor(url, title) {
+    this.url = url;
+    this.title = title;
+  }
+  handleTwitterShare = () => {
+    const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      this.title
+    )}&url=${encodeURIComponent(this.url)}`;
+    window.open(twitterShareUrl, "_blank", "noopener,noreferrer");
+  };
+  handleFacebookShare = () => {
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      this.url
+    )}`;
+    window.open(facebookShareUrl, "_blank", "noopener,noreferrer");
+  };
+  handleLinkedInShare = () => {
+    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+      this.url
+    )}`;
+    window.open(linkedInShareUrl, "_blank", "noopener,noreferrer");
+  };
+}
+
+export const formatTime = (time = "") => {
+  const timeString = time;
+  const [hours, minutes] = timeString.split(":");
+
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+
+  const formattedTime = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  }).format(date);
+
+  return formattedTime;
+};
+
+export { SocialMedia };
+
+export const handlePromise = (promise) => {
+  return promise.then((data) => [null, data]).catch((err) => [err, null]);
+};

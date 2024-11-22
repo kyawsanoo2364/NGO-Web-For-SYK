@@ -2,8 +2,29 @@ import { Link } from "react-router-dom";
 import EduCard from "../Cards/EduCard";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { SectionWrapper } from "../../hoc";
+import { useEduProjectStore } from "../../store/EduProjectStore";
+import { useEffect, useState } from "react";
+import { handlePromise } from "../../utils";
 
 const EducationProject = () => {
+  const { projects, getAllProjects } = useEduProjectStore();
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const [err, res] = await handlePromise(getAllProjects());
+      if (err) {
+        setIsLoading(false);
+        console.log(err);
+        return;
+      }
+      if (res) {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+  if (!isLoading && !projects) return null;
   return (
     <div className="my-10">
       <div className="container max-w-6xl mx-auto flex w-full flex-col ">
@@ -12,20 +33,14 @@ const EducationProject = () => {
         </h1>
         <div className=" mt-10 flex flex-col md:flex-row flex-wrap lg:flex-nowrap justify-center gap-10 items-center mx-auto w-full">
           {/**Edu Project here */}
-          {[...new Array(3)].map((_, idx) => (
-            <EduCard
-              idx={idx + 1}
-              location={"Taungoo,Bago,Myanmar"}
-              time={"15 Oct 2025"}
-              logoImage={
-                "https://img.pikbest.com/png-images/education-logo-vector-graphic-element_1552512.png!sw800"
-              }
-              title={"Bright Future Project"}
-              description={
-                "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa ullam et sit consequuntur quam excepturi, itaque quia debitis facere pariatur ipsum non deserunt. Quasi vitae veritatis praesentium quod nisi quia!"
-              }
-            />
-          ))}
+
+          {isLoading
+            ? [...new Array(3)].map((_, idx) => (
+                <EduCard key={"edu+" + idx} idx={idx + 1} isLoading />
+              ))
+            : projects?.map((p, idx) => (
+                <EduCard key={"edu+" + idx} idx={idx + 1} data={p} />
+              ))}
         </div>
         <div className="w-full mt-4  flex justify-end">
           <Link

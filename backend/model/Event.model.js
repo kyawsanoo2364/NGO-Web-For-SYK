@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
 const eventModel = new mongoose.Schema({
-  logoImage: { type: String, default: null },
+  image: { type: String, default: null },
+  imageId: { type: String },
   title: {
     type: String,
     required: true,
@@ -19,7 +20,9 @@ const eventModel = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }],
+  time: {
+    type: String,
+  },
 });
 
 const studentSchema = new mongoose.Schema({

@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import GenderInput from "../components/GenderInput";
 import { useAuthStore } from "../store/AuthStore";
 import { toast } from "react-toastify";
+import { ModleView } from "../hoc";
 
 const Signup = () => {
   const { isLoading, signup } = useAuthStore();
@@ -40,7 +41,9 @@ const Signup = () => {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <>
       <div className="min-h-screen w-full bg-gradient-to-br from-green-500 via-slate-400 to-pink-400  flex justify-center items-center px-2 relative">
@@ -146,4 +149,4 @@ const Signup = () => {
     </>
   );
 };
-export default Signup;
+export default ModleView(Signup);

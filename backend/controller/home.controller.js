@@ -21,15 +21,16 @@ export const createHomePage = async (req, res) => {
       about,
       vision,
       mission,
-      goal,
-      partnership,
       phone,
       email,
       facebook,
       twitter,
       indeed,
+      telegram,
       instagram,
+      activityVideoUrl,
     } = req.body;
+
     const home = new Home({
       hero: {
         title: heroTitle,
@@ -39,9 +40,17 @@ export const createHomePage = async (req, res) => {
       about,
       vision,
       mission,
-      goal,
-      partnership,
-      contact: { phone, email, facebook, twitter, indeed, instagram },
+      activityVideoUrl,
+
+      contacts: {
+        phone: phone,
+        email: email,
+        facebook: facebook,
+        twitter: twitter,
+        indeed: indeed,
+        instagram: instagram,
+        telegram: telegram,
+      },
     });
     await home.save();
 
@@ -64,30 +73,30 @@ export const UpdateHomePage = async (req, res) => {
     const {
       heroTitle,
       heroDescription,
-      heroBackgroundImage,
+
       about,
       vision,
       mission,
-      goal,
-      partnership,
+      activityVideoUrl,
+
       phone,
       email,
       facebook,
       twitter,
       indeed,
       instagram,
+      telegram,
     } = req.body;
-
     if (
       !heroTitle ||
       !heroDescription ||
-      !heroBackgroundImage ||
       !about ||
       !vision ||
       !mission ||
-      !goal ||
+      !activityVideoUrl ||
       !phone ||
-      !email
+      !email ||
+      !req.heroBackgroundImage
     ) {
       return res.status(400).json({ message: "All fields are required!" });
     }
@@ -114,20 +123,21 @@ export const UpdateHomePage = async (req, res) => {
           hero: {
             title: heroTitle,
             subTitle: heroDescription,
-            backgroundImage: heroBackgroundImage,
+            backgroundImage: req.heroBackgroundImage,
           },
           about,
           vision,
           mission,
-          goal,
-          partnership,
+          activityVideoUrl,
+
           contacts: {
             phone,
             email,
             facebook,
             twitter,
+            telegram,
             indeed,
-            Instagram: instagram,
+            instagram: instagram,
           },
         },
       },

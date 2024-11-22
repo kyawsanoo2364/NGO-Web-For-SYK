@@ -1,0 +1,120 @@
+/* styles.css */
+@import "tailwindcss/tailwind.css";
+
+.ProseMirror {
+  width: 100%;
+
+  padding: 10px;
+  border: none;
+  outline: none;
+
+  margin: 0;
+}
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+/* Simple Code Block Styles */
+.ProseMirror pre {
+  background-color: #f5f5f5; /* Light gray background */
+  padding: 12px; /* Padding around code block */
+  border-radius: 4px; /* Rounded corners */
+  overflow-x: auto; /* Horizontal scroll for long lines */
+  font-family: "Courier New", monospace; /* Monospaced font */
+}
+
+/* Blockquote Styles */
+.ProseMirror blockquote {
+  @apply border-l-4 border-gray-500 pl-4 italic text-gray-700;
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  background-color: #f9f9f9; /* Light gray background for blockquotes */
+}
+
+/* List Styles */
+.ProseMirror ul {
+  padding-left: 1rem;
+}
+
+.ProseMirror ul,
+ol {
+  list-style-type: none; /* Removes default bullet points and numbers */
+  padding-left: 0; /* Removes default padding */
+}
+
+.ProseMirror ul li,
+ol li {
+  margin-bottom: 10px; /* Adds spacing between list items */
+}
+.ProseMirror li {
+  display: flex;
+}
+
+/* Custom bullet points for unordered lists */
+.ProseMirror ul li::before {
+  content: "\2022"; /* Unicode for a bullet point */
+  color: #333;
+  font-size: 16px;
+  margin-right: 10px;
+}
+.ProseMirror ol {
+  counter-reset: list-counter; /* Reset counter for custom numbering */
+  padding-left: 1rem; /* Indent the list items */
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.ProseMirror ol li {
+  list-style: none; /* Remove default numbering */
+  counter-increment: list-counter; /* Increment counter */
+  position: relative; /* Position for custom counter */
+  margin-bottom: 0.5em;
+  padding-left: 1rem; /* Space between number and text */
+}
+
+/* Custom numbering for ordered lists */
+.ProseMirror ol li::before {
+  content: counter(list-counter) "."; /* Number followed by period */
+  position: absolute;
+  left: 0; /* Align numbers to the left */
+  color: #333; /* Text color for numbers */
+
+  font-size: 1rem; /* Adjust font size */
+}
+
+.ProseMirror code {
+  background-color: #f5f5f5; /* Light gray background */
+  padding: 2px 4px; /* Padding around inline code */
+  border-radius: 4px; /* Rounded corners */
+  font-family: "Courier New", monospace; /* Monospaced font */
+}
+.ProseMirror p {
+  @apply mb-4;
+}
+
+.ProseMirror h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+.ProseMirror h2 {
+  @apply text-2xl font-bold mb-3;
+}
+
+.ProseMirror h3 {
+  @apply text-xl font-bold mb-2;
+}
+
+.ProseMirror h4 {
+  @apply text-lg font-bold mb-2;
+}
+
+.ProseMirror h5 {
+  @apply text-base font-bold mb-1;
+}
+
+.ProseMirror h6 {
+  @apply text-sm font-bold mb-1;
+}

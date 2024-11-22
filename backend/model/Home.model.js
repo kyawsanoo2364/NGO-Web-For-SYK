@@ -12,16 +12,10 @@ const homeSchema = new mongoose.Schema({
   },
   vision: { type: String, required: true },
   mission: { type: String, required: true },
-  goal: { type: String, required: true },
-  partnership: { type: Array, default: [] },
+  activityVideoUrl: { type: String },
+
   contacts: {
-    phone: Array,
-    email: String,
-    location: String,
-    facebook: { type: String, default: null },
-    Instagram: { type: String, default: null },
-    Indeed: { type: String, default: null },
-    twitter: { type: String, default: null },
+    type: Object,
   },
 });
 

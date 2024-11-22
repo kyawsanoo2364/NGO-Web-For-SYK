@@ -1,3 +1,5 @@
 import SectionWrapper from "./SectionWrapper";
+import ModleView from "./ModleView";
+import AdminView from "./AdminView";
 
-export { SectionWrapper };
+export { SectionWrapper, ModleView, AdminView };

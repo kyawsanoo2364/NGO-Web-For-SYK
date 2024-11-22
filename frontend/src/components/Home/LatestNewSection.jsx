@@ -3,9 +3,12 @@ import { IoIosArrowBack } from "react-icons/io";
 import BlogPostCard from "../Cards/BlogPostCard";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useBlogStore } from "../../store/BlogStore";
+import moment from "moment";
 
 const LatestNewSection = () => {
   const scrollBlog = useRef();
+  const { blogs } = useBlogStore();
 
   useEffect(() => {
     if (scrollBlog.current) {
@@ -44,22 +47,15 @@ const LatestNewSection = () => {
             className="mt-5 flex flex-row  justify-start  gap-4  items-center overflow-x-auto md:overflow-hidden  transition-all duration-300 z-20  mx-auto scroll-smooth "
             ref={scrollBlog}
           >
-            {[...new Array(10)].map((_, idx) => (
+            {blogs?.map((blog, idx) => (
               <BlogPostCard
                 key={"blog+" + idx}
-                img={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSop1mCkQRs48V_WwsZHt-mK7jTqgiiZuBKZA&s"
-                }
-                title={`${idx} Ever feel like the world's problems are as complex as quantum physics?
-Us too. Especially when it comes to tackling climate change. There’s
-so much to be done. But what if the solution isn't rocket science?
-What if it's as simple as a shift in the way we work?`}
-                time={"3 days ago"}
-                description={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed eos
-  sequi corrupti quis vitae repellendus eius fugit quasi! Praesentium,
-  magnam distinctio accusamus est dignissimos quae quasi rem cum
-  provident sint.`}
-                linkTo={"/"}
+                img={blog.media[0].url}
+                title={blog.title}
+                videoUrl={blog.videoURL}
+                time={moment(blog.createdAt).fromNow()}
+                description={blog.description}
+                linkTo={"/blogs/" + blog._id}
               />
             ))}
           </div>

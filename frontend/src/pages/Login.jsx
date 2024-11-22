@@ -1,15 +1,20 @@
 import { motion } from "framer-motion";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/AuthStore";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { ModleView } from "../hoc";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { isLoading, login } = useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,4 +85,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default ModleView(Login);

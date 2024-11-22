@@ -1,37 +1,80 @@
+import { Link } from "react-router-dom";
+import { MdOutlineEmail } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
+import { FaTelegram } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa6";
+import { useHomeStore } from "../store/HomeStore";
+
 const Footer = () => {
+  const { homeInfo, header } = useHomeStore();
+
   return (
     <>
-      <footer className=" w-full shadow bg-gray-800">
-        <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2023{" "}
-            <a href="https://flowbite.com/" className="hover:underline">
-              Flowbite™
-            </a>
-            . All Rights Reserved.
-          </span>
-          <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                Licensing
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline">
-                Contact
-              </a>
-            </li>
-          </ul>
+      <footer className="p-4 bg-slate-900">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1  gap-4 md:grid-cols-3  lg:grid-cols-4 mt-10 mb-10">
+            <Link
+              to={"/"}
+              className="flex flex-col justify-center items-center gap-3"
+            >
+              <img
+                src={header?.logo}
+                alt=""
+                className="size-[80px] object-contain rounded"
+              />
+              <h2 className="text-lg text-white font-bold ">
+                {header?.companyName}
+              </h2>
+            </Link>
+            {/**About us */}
+            <div className="flex flex-col justify-center items-center gap-2 text-center text-pretty">
+              <h2 className="text-lg font-semibold text-gray-100">About us</h2>
+              <p className="text-slate-400 text-sm ">{homeInfo?.about}</p>
+            </div>
+            {/**Quick links */}
+            <div className="flex flex-col justify-center items-center gap-2 text-center text-gray-200">
+              <h2 className="text-lg font-semibold text-gray-200">
+                Quck Links
+              </h2>
+              <a href="/">Home</a>
+              <a href="/blogs">Blogs</a>
+              <a href="/events">Events</a>
+              <button>Donate</button>
+              <a href="/login">Sign in</a>
+            </div>
+            {/**Contacts */}
+            <div className="flex flex-col  gap-2 text-center items-center text-gray-200">
+              <h2 className="text-lg font-semibold text-gray-200 text-center">
+                Contacts
+              </h2>
+              <p className="flex items-center gap-2 ">
+                <MdOutlineEmail className="size-6" />
+                {homeInfo?.contacts?.email}
+              </p>
+              <p className="flex items-center gap-4">
+                <FaPhoneAlt className="size-5" />
+                {homeInfo?.contacts?.phone}
+              </p>
+              <div className="mt-4 flex gap-2 justify-center items-center">
+                <a href={homeInfo?.contacts.facebook} target="_blank">
+                  <FaFacebook className="size-6 text-blue-500 bg-white rounded-full" />
+                </a>
+                <a href={homeInfo?.contacts?.telegram} target="_blank">
+                  <FaTelegram className="size-6 text-blue-400 bg-white rounded-full" />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-center  justify-center">
+            <div className="w-[80%] h-[1px] bg-gray-600 "></div>
+            <div className="flex mt-5">
+              {" "}
+              <p className="text-gray-400 text-center">
+                &copy; 2024 Show Your Kindness. All rights reserved.
+              </p>
+            </div>
+          </div>
         </div>
       </footer>
     </>

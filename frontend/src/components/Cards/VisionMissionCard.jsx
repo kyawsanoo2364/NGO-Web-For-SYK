@@ -50,18 +50,19 @@ const VisionMissionCard = ({
           whileInView="visible"
           viewport={{ once: once }}
           transition={{ duration: 1, delay }}
-          variants={
-            !isMobile
-              ? {
-                  visible: { opacity: 1, x: 100 },
+          variants={() => {
+            if (isMobile) {
+              return {
+                visible: { opacity: 1, x: 0 },
+                hidden: { opacity: 0, x: 0 },
+              };
+            }
+            return {
+              visible: { opacity: 1, x: 100 },
 
-                  hidden: { opacity: 0, x: -100 },
-                }
-              : {
-                  visible: { opacity: 1, x: 0 },
-                  hidden: { opacity: 0, x: 0 },
-                }
-          }
+              hidden: { opacity: 0, x: -100 },
+            };
+          }}
           src={icon}
           alt=""
           className="object-contain size-[150px]"
@@ -72,18 +73,19 @@ const VisionMissionCard = ({
         whileInView="visible"
         viewport={{ once: once }}
         transition={{ duration: 1, delay }}
-        variants={
-          !isMobile
-            ? {
-                visible: { opacity: 1, x: 0 },
+        variants={() => {
+          if (isMobile) {
+            return {
+              visible: { opacity: 1, x: 0 },
+              hidden: { opacity: 0, x: 0 },
+            };
+          }
+          return {
+            visible: { opacity: 1, x: 0 },
 
-                hidden: { opacity: 0, x: 100 },
-              }
-            : {
-                visible: { opacity: 1, x: 0 },
-                hidden: { opacity: 0, x: 0 },
-              }
-        }
+            hidden: { opacity: 0, x: 100 },
+          };
+        }}
         className="p-4 w-full"
       >
         <h2 className="text-center text-xl md:text-2xl font-semibold text-slate-800">

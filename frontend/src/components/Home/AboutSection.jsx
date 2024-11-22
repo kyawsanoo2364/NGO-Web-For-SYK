@@ -2,8 +2,10 @@ import TrustAboutSection from "./TrustAboutSection";
 import VisionMissionCard from "../Cards/VisionMissionCard";
 import { motion } from "framer-motion";
 import { SectionWrapper } from "../../hoc";
+import { useHomeStore } from "../../store/HomeStore";
 
 const AboutSection = () => {
+  const { homeInfo } = useHomeStore();
   return (
     <div className="w-full bg-slate-50 pb-24 md:pb-[300px] relative select-none">
       <div className="h-2 w-full bg-gray-800"></div>
@@ -15,31 +17,21 @@ const AboutSection = () => {
             reverse={true}
             title={"Who we are"}
             icon={"/whoweare.png"}
-            description={`[NGO Name] is a dedicated team of changemakers working to create a brighter future for vulnerable communities. Founded in [Year], we focus on addressing critical issues like poverty, education, healthcare, and environmental sustainability. Through collaboration with local partners and innovative solutions, we aim to uplift lives and foster positive, long-lasting change. Driven by compassion and a commitment to justice, we work every day to build a better world for all.`}
+            description={homeInfo?.about}
             delay={0}
           />
           <VisionMissionCard
             reverse={false}
             title={"Our Mission"}
             icon={"/mission.png"}
-            description={`Our mission at [NGO Name] is to create lasting change by empowering
-          underserved communities through education, advocacy, and sustainable
-          development. We strive to address inequality, promote human rights,
-          and improve the quality of life for those in need. By working
-          alongside local partners, we aim to build a more just and equitable
-          world where everyone has the opportunity to thrive.`}
+            description={homeInfo?.mission}
             delay={0.5}
           />
           <VisionMissionCard
             reverse={true}
             title={"Our Vision"}
             icon={"/vision.png"}
-            description={`Our mission at [NGO Name] is to create lasting change by empowering
-          underserved communities through education, advocacy, and sustainable
-          development. We strive to address inequality, promote human rights,
-          and improve the quality of life for those in need. By working
-          alongside local partners, we aim to build a more just and equitable
-          world where everyone has the opportunity to thrive.`}
+            description={homeInfo?.vision}
             delay={0.8}
           />
         </div>

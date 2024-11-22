@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ModleView } from "../hoc";
 
 const SendForgotEmailSuccess = () => {
   return (
@@ -20,4 +21,4 @@ const SendForgotEmailSuccess = () => {
     </div>
   );
 };
-export default SendForgotEmailSuccess;
+export default ModleView(SendForgotEmailSuccess);

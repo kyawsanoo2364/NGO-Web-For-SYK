@@ -11,10 +11,9 @@ const projectSchema = new mongoose.Schema(
       required: true,
     },
     logoImage: { type: String, default: "" },
-    courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+    imageId: { type: String },
     location: { type: String, required: true },
     date: { type: Date, required: true },
-    duration: { type: String, required: true, default: null },
   },
   { timestamps: true }
 );

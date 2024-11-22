@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const blogModel = new mongoose.Schema(
   {
-    header: {
+    title: {
       type: String,
       required: true,
     },
@@ -10,6 +10,7 @@ const blogModel = new mongoose.Schema(
       type: String,
       required: true,
     },
+    videoURL: String,
     media: Array,
   },
   { timestamps: true }

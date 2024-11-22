@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useAuthStore } from "../store/AuthStore";
 import { Navigate, useNavigate } from "react-router-dom";
+import { ModleView } from "../hoc";
 
 const VerifyEmail = () => {
   const { isLoading, verifyEmail, user } = useAuthStore();
@@ -122,4 +123,4 @@ const VerifyEmail = () => {
     </>
   );
 };
-export default VerifyEmail;
+export default ModleView(VerifyEmail);

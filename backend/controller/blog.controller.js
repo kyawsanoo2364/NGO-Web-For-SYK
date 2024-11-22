@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 import Blog from "../model/Blog.model.js";
 import { IsCheckTextFromURL } from "../utils/IsCheckText.mjs";
+import cloudinary from "../utils/Cloudinary.js";
+import uploadImageToCloudinary from "../utils/uploadImageToCloudinary.js";
 
 export const getBlog = async (req, res) => {
   try {
-    const posts = await Blog.find({});
+    const skip = parseInt(req.query.skip) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const posts = await Blog.find({})
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
     res.status(200).json({ contents: posts, success: true });
   } catch (error) {
     console.log(error.message);
@@ -31,33 +38,19 @@ export const getBlogDetails = async (req, res) => {
 
 export const PostBlog = async (req, res) => {
   try {
-    const { header, description, media } = req.body;
-    if (!header || !description || !media || media.length === 0) {
+    const { title, description, videoURL } = req.body;
+
+    if (!title || !description || !req.media || req.media.length === 0) {
       return res
         .status(400)
         .json({ message: "All fields are required!", success: false });
     }
 
-    for (let i = 0; i < media.length; i++) {
-      const checkText = await IsCheckTextFromURL(media[i]);
-      let causeErrorFromForeach = false;
-
-      if (checkText) {
-        causeErrorFromForeach = true;
-        if (causeErrorFromForeach) {
-          return res.status(400).json({
-            message: "This url should be (Photo or video) file type.",
-            success: false,
-          });
-        }
-        return;
-      }
-    }
-
     const post = new Blog({
-      header,
+      title,
       description,
-      media,
+      media: req.media,
+      videoURL,
     });
 
     await post.save();
@@ -78,23 +71,52 @@ export const PostBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
+    const { title, description, media, removeImagesId } = req.body;
+    let m = JSON.parse(media);
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({});
     }
-    const { header, description, media } = req.body;
-    if (!header || !description || !media) {
+
+    //delete unused images
+    if (removeImagesId?.length > 0) {
+      await cloudinary.api.delete_resources(removeImagesId);
+    }
+
+    let images = [];
+    if (req.files) {
+      for (const file of req.files) {
+        const { secure_url, public_id } = await uploadImageToCloudinary(
+          "syk_blogs",
+          file.path,
+          {
+            useOneFolderAndOneFile: false,
+          }
+        );
+        images.push({ url: secure_url, id: public_id });
+      }
+    }
+    if (images.length > 0) {
+      m = [...JSON.parse(media), ...images];
+    }
+
+    if (!title || !description || !m) {
       return res
         .status(400)
         .json({ message: "All fields are required", success: false });
     }
-    const updateBlog = await Blog.findByIdAndUpdate(id, {
-      header,
-      description,
-      media,
-    });
+    const updateBlog = await Blog.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        media: m,
+      },
+      { new: true }
+    );
     res.status(201).json({
       message: "Blog post updated successfully!",
       success: true,
+      content: updateBlog,
     });
   } catch (error) {
     console.log(error.message);
@@ -106,6 +128,12 @@ export const deleteBlog = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404);
+    const existBlog = await Blog.findById(id);
+    if (existBlog) {
+      for (const media of existBlog.media) {
+        await cloudinary.uploader.destroy(media.id);
+      }
+    }
     await Blog.findByIdAndDelete(id);
     res
       .status(200)

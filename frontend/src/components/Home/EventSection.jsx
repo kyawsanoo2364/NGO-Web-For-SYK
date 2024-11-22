@@ -1,7 +1,26 @@
 import { Link } from "react-router-dom";
 import EventCard from "../Cards/EventCard";
+import { useEventStore } from "../../store/EventStore";
+import moment from "moment";
+import { formatTime } from "../../utils";
+import { useEffect, useState } from "react";
 
 const EventSection = () => {
+  const { events, getEvents } = useEventStore();
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      await getEvents();
+      setIsLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  if (!isLoading && !events) {
+    return null;
+  }
+
   return (
     <div className="relative">
       <div className="h-32 md:h-60 w-full relative">
@@ -16,21 +35,24 @@ const EventSection = () => {
       <div className="container w-full mx-auto max-w-6xl p-4 md:-mt-32 ">
         {/** Event Cards */}
         <div className="gap-4 flex flex-col items-center justify-center md:flex-row flex-wrap lg:flex-nowrap">
-          {[...new Array(3)].map((_, index) => {
-            return (
-              <EventCard
-                idx={index + 1}
-                key={"event " + index}
-                img={
-                  "https://www.tammana.org.in/wp-content/uploads/IMG_0143.jpg"
-                }
-                date={"Oct 14"}
-                location={"SYK office,Taungoo ,Bago Myanmar"}
-                time={"3pm to 5pm"}
-                title={"Hope in Action: Community Upliftment Gala"}
-              />
-            );
-          })}
+          {isLoading
+            ? [...new Array(3)].map((_, idx) => (
+                <EventCard key={"event+" + idx} isLoading={isLoading} />
+              ))
+            : events?.slice(0, 3).map((data, index) => {
+                return (
+                  <EventCard
+                    id={data._id}
+                    idx={index + 1}
+                    key={"event " + index}
+                    img={data.image}
+                    date={moment(data.date).format("ll")}
+                    location={data.location}
+                    time={data.time}
+                    title={data.title}
+                  />
+                );
+              })}
         </div>
       </div>
       <div className="lg:inline-block flex justify-center mt-4 lg:mt-0">

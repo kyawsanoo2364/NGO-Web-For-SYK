@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import Card from "../Cards/Card";
 import { SectionWrapper } from "../../hoc";
+import { useHomeStore } from "../../store/HomeStore";
 
 const HeroSection = () => {
+  const { homeInfo } = useHomeStore();
   return (
     <div className="w-full min-h-screen relative ">
       <img
-        src={"https://serudsindia.org/wp-content/uploads/2019/11/99A0665-1.jpg"}
+        src={homeInfo?.hero.backgroundImage}
         className="object-cover w-full min-h-screen"
       />
       <div className="absolute top-0 left-0 bottom-0 right-0 bg-gray-800 bg-opacity-50 flex items-center justify-center text-center">
@@ -17,7 +19,7 @@ const HeroSection = () => {
             transition={{ duration: 1 }}
             className="text-xl md:text-3xl lg:text-4xl font-bold text-white"
           >
-            Empowering Communities, Changing Lives
+            {homeInfo?.hero.title}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 50 }}
@@ -25,9 +27,7 @@ const HeroSection = () => {
             transition={{ delay: 0.5, duration: 1 }}
             className="text-[15px] mg:text-lg lg:text-xl font-semibold mt-5 text-white"
           >
-            Join us in our mission to provide education, healthcare, and
-            opportunities to underprivileged communities across the world.
-            Together, we can create a brighter future for everyone.
+            {homeInfo?.hero.subTitle}
           </motion.p>
           <motion.button
             initial={{ opacity: 0, y: 50 }}

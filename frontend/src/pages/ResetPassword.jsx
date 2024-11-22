@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../store/AuthStore";
 import { useNavigate, useParams } from "react-router-dom";
+import { ModleView } from "../hoc";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -61,4 +62,4 @@ const ResetPassword = () => {
     </div>
   );
 };
-export default ResetPassword;
+export default ModleView(ResetPassword);
