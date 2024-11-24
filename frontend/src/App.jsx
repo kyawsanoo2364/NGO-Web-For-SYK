@@ -35,16 +35,27 @@ import AdminPrivacyPolicy from "./pages/Admin/AdminPrivacyPolicy";
 import { usePrivacyStore } from "./store/PrivacyStore";
 import DonationPage from "./pages/DonationPage";
 import Error500Page from "./pages/Error500Page";
+import Error404Page from "./pages/Error404Page";
 
 function App() {
   const { user, fetchUser } = useAuthStore();
-  const { getHeader, getHomeInfo } = useHomeStore();
+  const { getHeader, getHomeInfo, header } = useHomeStore();
   const { getBlogs } = useBlogStore();
   const { projects, getAllProjects } = useEduProjectStore();
   const [isLoading, setIsLoading] = useState(true);
   const { getPartnerships } = usePartnershipsStore();
   const { getPrivacy } = usePrivacyStore();
   const navigate = useNavigate();
+
+  const updateFavicon = (favicon) => {
+    const link =
+      document.querySelector("link[rel='icon']") ||
+      document.createElement("link");
+    link.type = "image/*";
+    link.rel = "icon";
+    link.href = favicon;
+    document.getElementsByTagName("head")[0].appendChild(link);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +68,8 @@ function App() {
         await getPrivacy();
         await getPartnerships();
         setIsLoading(false);
+
+        updateFavicon(header?.logo);
       } catch (error) {
         if (error.response && error.response.status === 500) {
           setIsLoading(false);
@@ -100,7 +113,7 @@ function App() {
               path="/login"
               element={user?.isVerified ? <Navigate to={"/"} /> : <Login />}
             />
-            <Route path="/donation" element={<DonationPage />} />
+            <Route path="/help" element={<DonationPage />} />
             <Route
               path="/forgotPassword"
               element={user ? <Navigate to={"/"} /> : <ForgotPassword />}
@@ -148,6 +161,7 @@ function App() {
                 )
               }
             />
+
             <Route
               path="/admin/dashboard/staffs"
               element={
@@ -178,6 +192,7 @@ function App() {
                 )
               }
             />
+            <Route path="/*" element={<Error404Page />} />
           </Routes>
 
           <ToastContainer position="top-center" />

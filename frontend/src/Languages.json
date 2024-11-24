@@ -1,0 +1,38 @@
+{
+  "languages": {
+    "en": {
+      "home": "Home",
+      "aboutUs": "About Us",
+      "partnerships": "Partnerships",
+      "blogs": "Blogs",
+      "events": "Events",
+      "projects": "Projects",
+      "contactUs": "Contact Us",
+      "trustAbout": " Trust is at the core of everything we do. We are committed to transparency,accountability, and ethical practices in all our operations. Every donation is carefully managed to ensure it makes the greatest impact on the communities we serve. With regular audits, open reporting, and a commitment to integrity, we strive to build lastingrelationships with our donors, partners, and the people we help.",
+      "whoWeAre": "Who we are",
+      "ourMission": "Our Mission",
+      "ourVision": "Our Vision",
+      "ourEvents": "Our Events",
+      "educationProjects": "Education Projects",
+      "ourPartnerships": "Our Partnerships",
+      "ourStaffs": "Our Staffs"
+    },
+    "my": {
+      "home": "အိမ်",
+      "aboutUs": "ကျွန်ုပ်တို့ရဲ့ အကြောင်း",
+      "partnerships": "မိတ်ဖက်အဖွဲ့အစည်းများ",
+      "blogs": "ဘလော့များ",
+      "events": "အစီအစဥ်များ",
+      "projects": "ပရောဂျက်များ",
+      "contactUs": "ကျွန်ုပ်တို့ကို ဆက်သွယ်ပါ",
+      "trustAbout": "ယုံကြည်မှုသည် ကျွန်ုပ်တို့လုပ်သမျှအားလုံး၏ အဓိကဖြစ်သည်။ ကျွန်ုပ်တို့၏ လုပ်ငန်းဆောင်ရွက်မှုအားလုံးတွင် ပွင့်လင်းမြင်သာမှု၊ တာဝန်ခံမှုနှင့် ကျင့်ဝတ်ဆိုင်ရာ အလေ့အကျင့်များကို လုပ်ဆောင်ရန် ကျွန်ုပ်တို့ကတိပြုပါသည်။ လှူဒါန်းမှုတိုင်းသည် ကျွန်ုပ်တို့ဝန်ဆောင်မှုပေးနေသော လူ့အဖွဲ့အစည်းအပေါ် အကြီးမားဆုံးအကျိုးသက်ရောက်မှုရှိစေရန် သေချာစေရန် ဂရုတစိုက်စီမံဆောင်ရွက်ပါသည်။ ပုံမှန်စာရင်းစစ်ခြင်း၊ ပွင့်လင်းမြင်သာစွာအစီရင်ခံခြင်းနှင့် သမာဓိရှိရန် ကတိကဝတ်များဖြင့် ကျွန်ုပ်တို့၏အလှူရှင်များ၊ လုပ်ဖော်ကိုင်ဖက်များနှင့် ကျွန်ုပ်တို့ကူညီနေသူများနှင့် ရေရှည်တည်တံ့သောဆက်ဆံရေးကို တည်ဆောက်ရန် ကြိုးပမ်းပါသည်။",
+      "whoWeAre": "ကျွန်တော်တို့က ဘာအဖွဲ့အစည်းလဲ",
+      "ourMission": "ကျွန်ုပ်တို့၏မစ်ရှင်",
+      "ourVision": " ကျွန်ုပ်တို့၏ရည်မှန်းချက်",
+      "ourEvents": "ကျွန်ုပ်တို့၏ပွဲများ",
+      "educationProjects": "ပညာရေး ပရောဂျက်များ",
+      "ourPartnerships": "ကျွန်ုပ်တို့ရဲ့ မိတ်ဖက်အဖွဲ့အစည်းများ",
+      "ourStaffs": "ကျွန်ုပ်တို့ရဲ့ ၀န်ထမ်းများ"
+    }
+  }
+}

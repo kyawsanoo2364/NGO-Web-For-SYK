@@ -1,6 +1,9 @@
 import { toast } from "react-toastify";
 import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
+import { languages } from "../Languages.json";
+import { useLanguage } from "../store/LanguageStore";
+
 export const BACKEND_URL = "http://localhost:5000";
 
 export const PasswordChecker = {
@@ -107,4 +110,16 @@ export { SocialMedia };
 
 export const handlePromise = (promise) => {
   return promise.then((data) => [null, data]).catch((err) => [err, null]);
+};
+
+export const detectedLanguage = () => {
+  try {
+    if (JSON.parse(localStorage.getItem("language")) === "Myanmar") {
+      return languages.my;
+    } else {
+      return languages.en;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };

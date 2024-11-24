@@ -6,7 +6,12 @@ import uploadImageToCloudinary from "../utils/uploadImageToCloudinary.js";
 
 export const getAllEduProject = async (req, res) => {
   try {
-    const projects = await EducationProject.find({}).sort({ createdAt: -1 });
+    const skip = parseInt(req.query.skip) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const projects = await EducationProject.find({})
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
     return res.status(200).json({ contents: projects });
   } catch (error) {
     console.log(error.message);

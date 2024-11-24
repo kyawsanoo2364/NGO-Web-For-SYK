@@ -1,10 +1,19 @@
+import { useEffect, useState } from "react";
 import { SectionWrapper } from "../../hoc";
+import { useLanguage } from "../../store/LanguageStore";
 import { usePartnershipsStore } from "../../store/PartnershipsStore";
+import { detectedLanguage } from "../../utils";
 import PartnershipCard from "../Cards/PartnershipCard";
 import { motion } from "framer-motion";
 
 const OurPartnership = ({ partnershipDescription }) => {
   const { partnerships } = usePartnershipsStore();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
 
   if (!partnerships || partnerships?.length === 0) {
     return null;
@@ -26,7 +35,7 @@ const OurPartnership = ({ partnershipDescription }) => {
         className="container mx-auto my-10 "
       >
         <h1 className="text-center uppercase text-white text-2xl md:text-3xl font-bold">
-          Our Partnerships
+          {translate.ourPartnerships}
         </h1>
         <h3 className="text-center mt-3 text-slate-200 font-semibold text-[16px] md:text-lg">
           {partnershipDescription}

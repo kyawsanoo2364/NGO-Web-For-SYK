@@ -2,14 +2,25 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/AuthStore";
 import { FiLogOut } from "react-icons/fi";
 import { IoClose, IoMenuOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useHomeStore } from "../store/HomeStore";
+import LanguageDropdown from "./LanguageDropdown";
+import { detectedLanguage } from "../utils";
+import { useLanguage } from "../store/LanguageStore";
 
 const Navbar = () => {
   const { user, logout } = useAuthStore();
   const { header } = useHomeStore();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
   const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
+
   return (
     <nav className="max-w-full bg-slate-700 text-white   py-2 font-sans backdrop-filter backdrop-blur-lg bg-opacity-30 fixed top-0 left-0 right-0 z-40">
       <div className="container mx-auto flex items-center justify-between px-5">
@@ -26,38 +37,69 @@ const Navbar = () => {
           </Link>
           {/** Desktop version */}
           <div className="hidden lg:flex items-center gap-4 ml-10">
-            <a href="/" className="text-[16px] hover:font-semibold ">
-              Home
+            <a
+              href="/"
+              className={`${
+                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
+              }  hover:font-semibold`}
+            >
+              {translate.home}
             </a>
-            <a href="/#about-us" className="text-[16px] hover:font-semibold ">
-              About us
+            <a
+              href="/#about-us"
+              className={`${
+                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
+              } hover:font-semibold`}
+            >
+              {translate.aboutUs}
             </a>
             <a
               href="/#partnerships"
-              className="text-[16px] hover:font-semibold "
+              className={`${
+                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
+              }  hover:font-semibold`}
             >
-              Partnership
+              {translate.partnerships}
             </a>
-            <Link to={"/blogs"} className="text-[16px] hover:font-semibold ">
-              Blogs
+            <Link
+              to={"/blogs"}
+              className={`${
+                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
+              } hover:font-semibold`}
+            >
+              {translate.blogs}
             </Link>
-            <Link to="/events" className="text-[16px] hover:font-semibold ">
-              Events
+            <Link
+              to="/events"
+              className={`${
+                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
+              }  hover:font-semibold`}
+            >
+              {translate.events}
             </Link>
-            <a href="/#projects" className="text-[16px] hover:font-semibold ">
-              Projects
+            <a
+              href="/#projects"
+              className={`${
+                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
+              }  hover:font-semibold`}
+            >
+              {translate.projects}
             </a>
-            <a href="#" className="text-[16px] hover:font-semibold ">
-              Contacts
+            <a
+              href="#"
+              className={`${
+                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
+              }  hover:font-semibold`}
+            >
+              {translate.contactUs}
             </a>
           </div>
         </div>
 
         <div className="hidden lg:flex items-center gap-4">
           <div className="flex items-center gap-3">
-            <button className="px-4 hover:bg-pink-600 py-2 rounded-lg bg-pink-500 text-white">
-              Donate Now
-            </button>
+            <LanguageDropdown />
+
             {/** 
             <Link to={"/login"} className="px-4 py-2">
               Sign in

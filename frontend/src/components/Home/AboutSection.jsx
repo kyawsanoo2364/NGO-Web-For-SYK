@@ -3,33 +3,45 @@ import VisionMissionCard from "../Cards/VisionMissionCard";
 import { motion } from "framer-motion";
 import { SectionWrapper } from "../../hoc";
 import { useHomeStore } from "../../store/HomeStore";
+import { detectedLanguage } from "../../utils";
+import { useEffect, useState } from "react";
+import { useLanguage } from "../../store/LanguageStore";
 
 const AboutSection = () => {
   const { homeInfo } = useHomeStore();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
   return (
     <div className="w-full bg-slate-50 pb-24 md:pb-[300px] relative select-none">
       <div className="h-2 w-full bg-gray-800"></div>
       <div className="">
         {/**md:mt-64 */}
-        <TrustAboutSection companyName={"Show Your Kindness"} />
+        <TrustAboutSection
+          companyName={"Show Your Kindness"}
+          translate={translate}
+        />
         <div className="mx-auto max-w-5xl flex flex-col">
           <VisionMissionCard
             reverse={true}
-            title={"Who we are"}
+            title={translate.whoWeAre}
             icon={"/whoweare.png"}
             description={homeInfo?.about}
             delay={0}
           />
           <VisionMissionCard
             reverse={false}
-            title={"Our Mission"}
+            title={translate.ourMission}
             icon={"/mission.png"}
             description={homeInfo?.mission}
             delay={0.5}
           />
           <VisionMissionCard
             reverse={true}
-            title={"Our Vision"}
+            title={translate.ourVision}
             icon={"/vision.png"}
             description={homeInfo?.vision}
             delay={0.8}

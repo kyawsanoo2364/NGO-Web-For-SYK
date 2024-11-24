@@ -9,11 +9,13 @@ import { FaPlusCircle } from "react-icons/fa";
 import CEBlogPostModal from "../components/Modal/CEBlogPostModal";
 import { useBlogStore } from "../store/BlogStore";
 import moment from "moment";
+import { useAuthStore } from "../store/AuthStore";
 
 const Blog = () => {
   const [showCEModal, setShowCEModal] = useState(false);
   const { getBlogs, blogs } = useBlogStore();
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuthStore();
 
   const fetchData = async () => {
     try {
@@ -54,9 +56,11 @@ const Blog = () => {
                 Our Stories & Activities
               </h1>
               {/**admin only allow */}
-              <button onClick={() => setShowCEModal(true)}>
-                <FaPlusCircle className="size-8 text-blue-400" />
-              </button>
+              {user?.role === "admin" && (
+                <button onClick={() => setShowCEModal(true)}>
+                  <FaPlusCircle className="size-8 text-blue-400" />
+                </button>
+              )}
             </div>
             {isLoading ? (
               <div className="mt-5 max-h-[500px]  h-full overflow-y-auto flex flex-col py-10 items-center gap-10 max-w-lg mx-auto ">
@@ -92,9 +96,9 @@ const Blog = () => {
                     data={blog}
                   />
                 ))}
-                <button className="px-4 py-2 border rounded font-semibold hover:bg-gray-200 ">
+                {/**  <button className="px-4 py-2 border rounded font-semibold hover:bg-gray-200 ">
                   Load More...
-                </button>
+                </button> */}
               </div>
             )}
           </div>

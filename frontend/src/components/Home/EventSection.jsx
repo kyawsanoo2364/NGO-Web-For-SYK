@@ -2,11 +2,18 @@ import { Link } from "react-router-dom";
 import EventCard from "../Cards/EventCard";
 import { useEventStore } from "../../store/EventStore";
 import moment from "moment";
-import { formatTime } from "../../utils";
+import { detectedLanguage, formatTime } from "../../utils";
 import { useEffect, useState } from "react";
+import { useLanguage } from "../../store/LanguageStore";
 
 const EventSection = () => {
   const { events, getEvents } = useEventStore();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     async function fetchData() {
@@ -28,7 +35,7 @@ const EventSection = () => {
         <div className=" bg-gradient-to-r opacity-90 from-yellow-700 via-yellow-400 backdrop-filter backdrop-blur-md  to-orange-400 w-full h-full absolute top-0 left-0 bottom-0 right-0 "></div>
         <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center w-full h-full md:h-1/2">
           <h1 className="text-3xl text-gray-100 font-bold text-center items-center ">
-            Our Events
+            {translate.ourEvents}
           </h1>
         </div>
       </div>

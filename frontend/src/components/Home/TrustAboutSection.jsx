@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 
-const TrustAboutSection = ({ companyName }) => {
+import parser from "html-react-parser";
+
+const TrustAboutSection = ({ companyName, translate }) => {
   return (
     <div className="w-full mt-6 mb-10">
       <motion.div
@@ -19,13 +21,7 @@ const TrustAboutSection = ({ companyName }) => {
             Trust About
           </h1>
           <p className="text-[16px] md:text-lg text-center font-semibold text-slate-700">
-            At {<span className="font-bold">{companyName}</span>}, trust is at
-            the core of everything we do. We are committed to transparency,
-            accountability, and ethical practices in all our operations. Every
-            donation is carefully managed to ensure it makes the greatest impact
-            on the communities we serve. With regular audits, open reporting,
-            and a commitment to integrity, we strive to build lasting
-            relationships with our donors, partners, and the people we help.
+            {parser(translate.trustAbout)}
           </p>
         </div>
       </motion.div>

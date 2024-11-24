@@ -2,11 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import StaffProfileCard from "../Cards/StaffProfileCard";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useStaffStore } from "../../store/StaffStore";
+import { detectedLanguage } from "../../utils";
+import { useLanguage } from "../../store/LanguageStore";
 
 const OurStaffSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { getStaffs, staffs } = useStaffStore();
   const scrollRef = useRef(null);
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +52,9 @@ const OurStaffSection = () => {
   return (
     <div className="my-10 w-full">
       <div className="container mx-auto relative ">
-        <h2 className="text-2xl font-bold text-slate-800">Our Staffs</h2>
+        <h2 className="text-2xl font-bold text-slate-800">
+          {translate.ourStaffs}
+        </h2>
         <div
           className=" w-full p-4 mt-5 flex justify-start items-center gap-10 md:overflow-hidden overflow-x-auto mx-auto "
           ref={scrollRef}

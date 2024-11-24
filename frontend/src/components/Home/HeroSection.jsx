@@ -29,14 +29,6 @@ const HeroSection = () => {
           >
             {homeInfo?.hero.subTitle}
           </motion.p>
-          <motion.button
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 1 }}
-            className=" my-5 px-4 py-2 rounded-md bg-orange-500 text-white text-[16px] md:text-lg "
-          >
-            Donate Now
-          </motion.button>
         </div>
       </div>
       {/* <div className="absolute -bottom-48 left-0 right-0">

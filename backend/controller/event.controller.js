@@ -4,7 +4,12 @@ import removeImageFromCloudinary from "../utils/removeImageFromCloudinary.js";
 
 export const getAllEvents = async (req, res) => {
   try {
-    const events = await Event.find({}).sort({ date: 1 });
+    const skip = parseInt(req.query.skip) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const events = await Event.find({})
+      .sort({ date: 1 })
+      .skip(skip)
+      .limit(limit);
     res.status(200).json({ contents: events });
   } catch (error) {
     console.log(error.message);
