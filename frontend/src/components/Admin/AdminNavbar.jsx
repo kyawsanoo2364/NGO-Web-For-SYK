@@ -177,7 +177,7 @@ const AdminNavbar = () => {
           </Link>
         </div>
         <div className="absolute bottom-4 font-semibold text-slate-300 text-sm select-none">
-          Development By Kyaw San Oo
+          Developed By Kyaw San Oo
         </div>
       </div>
     </div>

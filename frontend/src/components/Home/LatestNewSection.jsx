@@ -1,14 +1,22 @@
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import BlogPostCard from "../Cards/BlogPostCard";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useBlogStore } from "../../store/BlogStore";
 import moment from "moment";
+import { detectedLanguage } from "../../utils";
+import { useLanguage } from "../../store/LanguageStore";
 
 const LatestNewSection = () => {
   const scrollBlog = useRef();
   const { blogs } = useBlogStore();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
 
   useEffect(() => {
     if (scrollBlog.current) {
@@ -35,12 +43,13 @@ const LatestNewSection = () => {
       <div className="container mx-auto relative">
         <div className="">
           <h1 className="flex gap-2 items-center text-2xl text-slate-800 font-bold ">
-            Latest News <IoIosArrowForward className="size-5 text-slate-800 " />{" "}
+            {translate.latestNews}{" "}
+            <IoIosArrowForward className="size-5 text-slate-800 " />{" "}
             <Link
               to={"/blogs"}
               className="text-lg font-normal text-blue-500 hover:underline"
             >
-              View All
+              {translate.viewAll}
             </Link>
           </h1>
           <div
@@ -56,6 +65,7 @@ const LatestNewSection = () => {
                 time={moment(blog.createdAt).fromNow()}
                 description={blog.description}
                 linkTo={"/blogs/" + blog._id}
+                translate={translate}
               />
             ))}
           </div>

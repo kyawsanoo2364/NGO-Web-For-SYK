@@ -10,12 +10,20 @@ import CEBlogPostModal from "../components/Modal/CEBlogPostModal";
 import { useBlogStore } from "../store/BlogStore";
 import moment from "moment";
 import { useAuthStore } from "../store/AuthStore";
+import { detectedLanguage } from "../utils";
+import { useLanguage } from "../store/LanguageStore";
 
 const Blog = () => {
   const [showCEModal, setShowCEModal] = useState(false);
   const { getBlogs, blogs } = useBlogStore();
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuthStore();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
 
   const fetchData = async () => {
     try {
@@ -46,14 +54,14 @@ const Blog = () => {
           <div className="mt-20">
             <h3 className="font-semibold text-slate-700 flex gap-2 w-full items-center">
               <Link to={"/"} className="flex items-center gap-2">
-                <FaHome /> Home
+                <FaHome /> {translate.home}
               </Link>
               <IoIosArrowForward className="mt-1" />
-              <Link to={"/blogs"}>blogs</Link>
+              <Link to={"/blogs"}>{translate.blogs}</Link>
             </h3>
             <div className="flex justify-between items-center mr-5">
               <h1 className="mt-4 text-xl font-bold text-slate-700">
-                Our Stories & Activities
+                {translate["ourStories&Activities"]}
               </h1>
               {/**admin only allow */}
               {user?.role === "admin" && (
@@ -94,6 +102,7 @@ const Blog = () => {
                     videoUrl={blog.videoURL}
                     linkTo={"/blogs/" + blog._id}
                     data={blog}
+                    translate={translate}
                   />
                 ))}
                 {/**  <button className="px-4 py-2 border rounded font-semibold hover:bg-gray-200 ">

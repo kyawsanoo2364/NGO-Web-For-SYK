@@ -36,6 +36,7 @@ import { usePrivacyStore } from "./store/PrivacyStore";
 import DonationPage from "./pages/DonationPage";
 import Error500Page from "./pages/Error500Page";
 import Error404Page from "./pages/Error404Page";
+import { useLanguage } from "./store/LanguageStore";
 
 function App() {
   const { user, fetchUser } = useAuthStore();
@@ -46,6 +47,7 @@ function App() {
   const { getPartnerships } = usePartnershipsStore();
   const { getPrivacy } = usePrivacyStore();
   const navigate = useNavigate();
+  const { getCurrentLanguage } = useLanguage();
 
   const updateFavicon = (favicon) => {
     const link =
@@ -67,6 +69,7 @@ function App() {
         await getBlogs();
         await getPrivacy();
         await getPartnerships();
+        getCurrentLanguage();
         setIsLoading(false);
 
         updateFavicon(header?.logo);

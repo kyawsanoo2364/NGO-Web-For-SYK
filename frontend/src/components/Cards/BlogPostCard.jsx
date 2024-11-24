@@ -17,6 +17,7 @@ const BlogPostCard = ({
   linkTo,
   videoUrl,
   data,
+  translate,
 }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const { deleteBlog } = useBlogStore();
@@ -114,7 +115,7 @@ const BlogPostCard = ({
                 to={linkTo}
                 className="px-4 py-2 w-full text-center md:w-[150px] rounded-full bg-green-700 text-white mt-5 hover:bg-green-800"
               >
-                Read more
+                {translate.readMore}
               </Link>
             </div>
           </div>

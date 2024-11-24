@@ -48,7 +48,12 @@ const EducationProject = () => {
             : projects
                 ?.slice(0, 3)
                 .map((p, idx) => (
-                  <EduCard key={"edu+" + idx} idx={idx + 1} data={p} />
+                  <EduCard
+                    key={"edu+" + idx}
+                    idx={idx + 1}
+                    data={p}
+                    translate={translate}
+                  />
                 ))}
         </div>
         <div className="w-full mt-4  flex justify-end">
@@ -56,7 +61,7 @@ const EducationProject = () => {
             to={"/education-projects"}
             className="px-4 py-2 text-[16px] border border-blue-500 rounded-lg text-blue-500 flex  items-center gap-2"
           >
-            See All{" "}
+            {translate.viewAll}{" "}
             <span>
               <IoIosArrowRoundForward className="size-6" />
             </span>

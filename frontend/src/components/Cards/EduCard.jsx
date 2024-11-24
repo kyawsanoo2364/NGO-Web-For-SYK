@@ -18,6 +18,7 @@ const EduCard = ({
   data,
   hideDonateButton = false,
   isLoading = false,
+  translate,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [showConfirmBox, setShowConfirmBox] = useState(false);
@@ -172,16 +173,9 @@ const EduCard = ({
           <div className=" mt-2 line-clamp-5 text-slate-600">
             {data && parser(data?.description)}
           </div>
-          <div className="mt-5 flex justify-between items-center">
-            <button
-              className={`bg-orange-400 px-3 py-2 rounded-full text-[16px] text-white ${
-                hideDonateButton ? "hidden" : ""
-              }`}
-            >
-              Donate Now
-            </button>
+          <div className="mt-5 flex justify-end items-center">
             <Link className="px-3 py-2 text-blue-500 border border-blue-400 mx-3 text-[16px] rounded-full">
-              Learn more
+              {translate.learnMore}
             </Link>
           </div>
         </div>

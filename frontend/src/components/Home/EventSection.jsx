@@ -65,9 +65,9 @@ const EventSection = () => {
       <div className="lg:inline-block flex justify-center mt-4 lg:mt-0">
         <Link
           to={"/events"}
-          className=" lg:absolute right-3 bottom-40 px-4 py-2 rounded-full border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+          className=" lg:absolute right-3 -bottom-5 px-4 py-2 rounded-full border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white text-sm"
         >
-          View All
+          {translate.viewAll}
         </Link>
       </div>
     </div>

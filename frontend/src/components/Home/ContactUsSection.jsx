@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../Input";
-import { ContactUs } from "../../utils";
+import { ContactUs, detectedLanguage } from "../../utils";
+import { useLanguage } from "../../store/LanguageStore";
 
 const ContactUsSection = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,6 +10,12 @@ const ContactUsSection = () => {
     user_name: "",
     message: "",
   });
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,16 +39,15 @@ const ContactUsSection = () => {
       <div className="container mx-auto">
         <div className="flex flex-col-reverse md:flex-row gap-5 justify-between items-center">
           <div className="max-w-md w-full bg-white p-4 mt-5 rounded-lg">
-            <h1 className="text-slate-700 font-bold text-2xl">Contact</h1>
+            <h1 className="text-slate-700 font-bold text-2xl">
+              {translate.contact}
+            </h1>
             <form className="mt-2" onSubmit={handleSubmit}>
               <p className="my-3 text-slate-500 text-balance text-sm">
-                Have questions or need more information? Fill out the form
-                below, and a member of our team will get back to you shortly.
-                Whether you're interested in volunteering, partnerships, or
-                learning more about our work, we’d love to hear from you!
+                {translate.contactDescription}
               </p>
               <Input
-                placeholder={"Your Name"}
+                placeholder={translate.name}
                 name={"user_name"}
                 value={formData.user_name}
                 onChange={handleChange}
@@ -49,7 +55,7 @@ const ContactUsSection = () => {
                 required={true}
               />
               <Input
-                placeholder={"Email Address"}
+                placeholder={translate.email}
                 name={"user_email"}
                 inputType={"email"}
                 value={formData.user_email}
@@ -59,7 +65,7 @@ const ContactUsSection = () => {
               <textarea
                 rows={10}
                 className="w-full outline-none border border-slate-300 p-4 "
-                placeholder="What do you want to say?"
+                placeholder={translate.description}
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
@@ -74,7 +80,7 @@ const ContactUsSection = () => {
                 } `}
                 disabled={isLoading}
               >
-                {isLoading ? "Sending Please wait..." : "Send Message"}
+                {isLoading ? translate.sendingMessage : translate.sendMessage}
               </button>
             </form>
           </div>

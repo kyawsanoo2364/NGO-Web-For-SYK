@@ -6,13 +6,20 @@ import { FaRegClock } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { ModleView } from "../hoc";
 import { useEventStore } from "../store/EventStore";
-import { formatTime } from "../utils";
+import { detectedLanguage, formatTime } from "../utils";
 import moment from "moment";
 import parser from "html-react-parser";
+import { useLanguage } from "../store/LanguageStore";
 
 const Events = () => {
   const { events, getEvents } = useEventStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
@@ -29,14 +36,16 @@ const Events = () => {
           <h3 className="font-semibold text-slate-700 flex gap-2 items-center">
             <Link to={"/"} className="flex gap-2 items-center">
               <FaHome />
-              Home
+              {translate.home}
             </Link>
             <IoIosArrowForward className="mt-1" />
             <Link to={"/events"} className="flex gap-2 items-center">
-              Events
+              {translate.events}
             </Link>
           </h3>
-          <h1 className="text-2xl font-bold mt-2 text-orange-500">Events</h1>
+          <h1 className="text-2xl font-bold mt-2 text-orange-500">
+            {translate.events}
+          </h1>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 mt-3 mb-10 gap-2">
           {/** Near Day Event */}
@@ -81,7 +90,7 @@ const Events = () => {
           {/**Other Events */}
           <div className="w-full border p-4 flex flex-col ">
             <h2 className="text-lg font-bold text-slate-600">
-              Upcomming Events
+              {translate.upcommingEvents}
             </h2>
             <div className="mt-2 w-full h-full overflow-y-auto items-center flex flex-col pt-5 overflow-x-hidden max-h-[380px] gap-2">
               {/** here upcoming events */}
