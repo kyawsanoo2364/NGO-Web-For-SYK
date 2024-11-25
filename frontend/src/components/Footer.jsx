@@ -41,7 +41,11 @@ const Footer = () => {
               <h2 className="text-lg font-semibold text-gray-100">
                 {translate.aboutUs}
               </h2>
-              <p className="text-slate-400 text-sm ">{homeInfo?.about}</p>
+              <p className="text-slate-400 text-sm ">
+                {language === "English"
+                  ? homeInfo?.about_en
+                  : homeInfo?.about_mm}
+              </p>
             </div>
             {/**Quick links */}
             <div className="flex flex-col justify-center items-center gap-2 text-center text-gray-200">

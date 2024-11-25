@@ -15,12 +15,17 @@ export const getHomePage = async (req, res) => {
 export const createHomePage = async (req, res) => {
   try {
     const {
-      heroTitle,
-      heroDescription,
+      heroTitle_en,
+      heroDescription_en,
+      heroTitle_mm,
+      heroDescription_mm,
       heroBackgroundImage,
-      about,
-      vision,
-      mission,
+      about_en,
+      vision_en,
+      mission_en,
+      about_mm,
+      vision_mm,
+      mission_mm,
       phone,
       email,
       facebook,
@@ -33,13 +38,18 @@ export const createHomePage = async (req, res) => {
 
     const home = new Home({
       hero: {
-        title: heroTitle,
-        subTitle: heroDescription,
+        title_en: heroTitle_en,
+        subTitle_en: heroDescription_en,
+        title_mm: heroTitle_mm,
+        subTitle_mm: heroDescription_mm,
         backgroundImage: heroBackgroundImage,
       },
-      about,
-      vision,
-      mission,
+      about_en,
+      vision_en,
+      mission_en,
+      about_mm,
+      vision_mm,
+      mission_mm,
       activityVideoUrl,
 
       contacts: {
@@ -71,12 +81,16 @@ export const UpdateHomePage = async (req, res) => {
       return res.status(400).json({ message: "Invalid Id" });
     }
     const {
-      heroTitle,
-      heroDescription,
-
-      about,
-      vision,
-      mission,
+      heroTitle_en,
+      heroDescription_en,
+      about_en,
+      vision_en,
+      mission_en,
+      heroTitle_mm,
+      heroDescription_mm,
+      about_mm,
+      vision_mm,
+      mission_mm,
       activityVideoUrl,
 
       phone,
@@ -88,11 +102,16 @@ export const UpdateHomePage = async (req, res) => {
       telegram,
     } = req.body;
     if (
-      !heroTitle ||
-      !heroDescription ||
-      !about ||
-      !vision ||
-      !mission ||
+      !heroTitle_en ||
+      !heroDescription_en ||
+      !about_en ||
+      !vision_en ||
+      !mission_en ||
+      !heroTitle_mm ||
+      !heroDescription_mm ||
+      !about_mm ||
+      !vision_mm ||
+      !mission_mm ||
       !activityVideoUrl ||
       !phone ||
       !email ||
@@ -121,13 +140,18 @@ export const UpdateHomePage = async (req, res) => {
       {
         $set: {
           hero: {
-            title: heroTitle,
-            subTitle: heroDescription,
+            title_en: heroTitle_en,
+            subTitle_en: heroDescription_en,
+            title_mm: heroTitle_mm,
+            subTitle_mm: heroDescription_mm,
             backgroundImage: req.heroBackgroundImage,
           },
-          about,
-          vision,
-          mission,
+          about_en,
+          vision_en,
+          mission_en,
+          about_mm,
+          vision_mm,
+          mission_mm,
           activityVideoUrl,
 
           contacts: {

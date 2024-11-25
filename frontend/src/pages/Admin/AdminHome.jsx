@@ -26,18 +26,25 @@ const AdminHome = () => {
     updateHomePage,
     isHomeUpdateLoading,
   } = useHomeStore();
-  const [heroTitle, setHeroTitle] = useState(homeInfo?.hero.title);
-  const [heroSubTitle, setHeroSubTitle] = useState("");
+  const [heroTitle_en, setHeroTitle_en] = useState(homeInfo?.hero.title);
+  const [heroSubTitle_en, setHeroSubTitle_en] = useState("");
   const [previewBg, setPreviewBg] = useState(null);
-  const [about, setAbout] = useState(null);
-  const [mission, setMission] = useState("");
-  const [vision, setVision] = useState("");
+  const [about_en, setAbout_en] = useState(null);
+  const [mission_en, setMission_en] = useState("");
+  const [vision_en, setVision_en] = useState("");
   const [activityVideoURL, setActivityVideoURL] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [facebook, setFacebook] = useState("");
   const [telegram, setTelegram] = useState("");
   const [file, setFile] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("EN");
+  //Myanmar version
+  const [heroTitle_mm, setHeroTitle_mm] = useState("");
+  const [heroSubTitle_mm, setHeroSubTitle_mm] = useState("");
+  const [about_mm, setAbout_mm] = useState("");
+  const [mission_mm, setMission_mm] = useState("");
+  const [vision_mm, setVision_mm] = useState("");
 
   const handleBgImageClick = () => {
     document.querySelector("#bgImage").click();
@@ -58,11 +65,16 @@ const AdminHome = () => {
 
   const handleEditButtonClick = () => {
     setIsEdit(true);
-    setHeroTitle(homeInfo?.hero.title);
-    setHeroSubTitle(homeInfo?.hero.subTitle);
-    setAbout(homeInfo?.about);
-    setMission(homeInfo?.mission);
-    setVision(homeInfo?.vision);
+    setHeroTitle_en(homeInfo?.hero.title_en);
+    setHeroSubTitle_en(homeInfo?.hero.subTitle_en);
+    setAbout_en(homeInfo?.about_en);
+    setMission_en(homeInfo?.mission_en);
+    setVision_en(homeInfo?.vision_en);
+    setHeroTitle_mm(homeInfo?.hero.title_mm);
+    setHeroSubTitle_mm(homeInfo?.hero.subTitle_mm);
+    setAbout_mm(homeInfo?.about_mm);
+    setMission_mm(homeInfo?.mission_mm);
+    setVision_mm(homeInfo?.vision_mm);
     setActivityVideoURL(homeInfo?.activityVideoUrl);
     setEmail(homeInfo?.contacts.email);
     setPhone(homeInfo?.contacts.phone);
@@ -73,14 +85,19 @@ const AdminHome = () => {
   const handleSaveButton = async () => {
     try {
       const res = await updateHomePage({
-        heroTitle,
-        heroDescription: heroSubTitle,
+        heroTitle_en,
+        heroDescription_en: heroSubTitle_en,
+        heroTitle_mm,
+        heroDescription_mm: heroSubTitle_mm,
         bgFile: file,
         heroBackgroundImage: homeInfo.hero.backgroundImage,
         activityVideoUrl: activityVideoURL,
-        about,
-        vision,
-        mission,
+        about_en,
+        vision_en,
+        mission_en,
+        about_mm,
+        vision_mm,
+        mission_mm,
         phone,
         email,
         facebook,
@@ -118,6 +135,24 @@ const AdminHome = () => {
             </button>
           )}
         </div>
+        <div className="flex justify-end items-center mb-5 -mt-3 mx-4">
+          <button
+            onClick={() => setSelectedLanguage("EN")}
+            className={`px-4 py-2 border rounded ${
+              selectedLanguage === "EN" ? " bg-orange-500 text-white" : ""
+            }`}
+          >
+            EN
+          </button>
+          <button
+            onClick={() => setSelectedLanguage("MM")}
+            className={`px-4 py-2 border rounded  ${
+              selectedLanguage === "MM" ? " bg-orange-500 text-white" : ""
+            }`}
+          >
+            MM
+          </button>
+        </div>
         {/** Edit Section */}
         <div className="max-h-[480px] h-full w-full p-4 overflow-y-auto relative">
           {/**Loading */}
@@ -128,28 +163,48 @@ const AdminHome = () => {
             <h2 className="text-xl font-bold text-slate-700">Hero Section</h2>
             <h3 className="text-lg font-semibold text-slate-700 mt-2">Title</h3>
             {isEdit ? (
-              <Input
-                value={heroTitle}
-                onChange={(e) => setHeroTitle(e.target.value)}
-              />
+              selectedLanguage === "MM" ? (
+                <Input
+                  value={heroTitle_mm}
+                  onChange={(e) => setHeroTitle_mm(e.target.value)}
+                />
+              ) : (
+                <Input
+                  value={heroTitle_en}
+                  onChange={(e) => setHeroTitle_en(e.target.value)}
+                />
+              )
             ) : (
               <h4 className="text-lg font-semibold text-slate-700 mt-2 border p-4 line-clamp-1">
-                {homeInfo?.hero.title}
+                {selectedLanguage === "EN"
+                  ? homeInfo?.hero.title_en
+                  : homeInfo?.hero.title_mm}
               </h4>
             )}
             <h2 className="mt-2 text-lg font-semibold text-slate-700">
               Sub Title
             </h2>
             {isEdit ? (
-              <textarea
-                className="w-full p-4 outline-none border"
-                rows={2}
-                value={heroSubTitle}
-                onChange={(e) => setHeroSubTitle(e.target.value)}
-              />
+              selectedLanguage === "EN" ? (
+                <textarea
+                  className="w-full p-4 outline-none border"
+                  rows={2}
+                  value={heroSubTitle_en}
+                  onChange={(e) => setHeroSubTitle_en(e.target.value)}
+                />
+              ) : (
+                <textarea
+                  className="w-full p-4 outline-none border"
+                  rows={2}
+                  value={heroSubTitle_mm}
+                  onChange={(e) => setHeroSubTitle_mm(e.target.value)}
+                />
+              )
             ) : (
               <h4 className="text-lg font-semibold text-slate-700 mt-2 border p-4 line-clamp-2">
-                {homeInfo?.hero.subTitle}
+                {selectedLanguage === "EN"
+                  ? homeInfo?.hero.subTitle_en
+                  : homeInfo?.hero.subTitle_mm}
               </h4>
             )}
             <h2 className="mt-4 text-lg font-semibold text-slate-700">
@@ -182,47 +237,84 @@ const AdminHome = () => {
               />
             </div>
           </div>
-          {/**About Section */}
+          {/**About_en Section */}
           <div className="mt-4">
             <h1 className="text-slate-700 font-bold text-xl">About</h1>
             <h2 className="text-slate-700 font-semibold text-lg mt-2">
               Who we are
             </h2>
             {isEdit ? (
-              <textarea
-                rows={5}
-                className="mt-2 w-full p-4 outline-none border"
-                value={about}
-                onChange={(e) => setAbout(e.target.value)}
-              ></textarea>
+              selectedLanguage === "EN" ? (
+                <textarea
+                  rows={5}
+                  className="mt-2 w-full p-4 outline-none border"
+                  value={about_en}
+                  onChange={(e) => setAbout_en(e.target.value)}
+                ></textarea>
+              ) : (
+                <textarea
+                  rows={5}
+                  className="mt-2 w-full p-4 outline-none border"
+                  value={about_mm}
+                  onChange={(e) => setAbout_mm(e.target.value)}
+                ></textarea>
+              )
             ) : (
-              <h3 className="mt-2 text-slate-700">{homeInfo?.about}</h3>
+              <h3 className="mt-2 text-slate-700">
+                {selectedLanguage === "EN"
+                  ? homeInfo?.about_en
+                  : homeInfo?.about_mm}
+              </h3>
             )}
             <h2 className="text-slate-700 font-semibold text-lg mt-2">
               Our mission
             </h2>
             {isEdit ? (
-              <textarea
-                rows={5}
-                className="mt-2 w-full p-4 outline-none border"
-                value={mission}
-                onChange={(e) => setMission(e.target.value)}
-              ></textarea>
+              selectedLanguage === "EN" ? (
+                <textarea
+                  rows={5}
+                  className="mt-2 w-full p-4 outline-none border"
+                  value={mission_en}
+                  onChange={(e) => setMission_en(e.target.value)}
+                ></textarea>
+              ) : (
+                <textarea
+                  rows={5}
+                  className="mt-2 w-full p-4 outline-none border"
+                  value={mission_mm}
+                  onChange={(e) => setMission_mm(e.target.value)}
+                ></textarea>
+              )
             ) : (
-              <h3 className="mt-2 text-slate-700">{homeInfo?.mission}</h3>
+              <h3 className="mt-2 text-slate-700">
+                {selectedLanguage === "EN"
+                  ? homeInfo?.mission_en
+                  : homeInfo?.mission_mm}
+              </h3>
             )}
             <h2 className="text-slate-700 font-semibold text-lg mt-2">
               Our vision
             </h2>
             {isEdit ? (
-              <textarea
-                rows={5}
-                className="mt-2 w-full p-4 outline-none border"
-                value={vision}
-                onChange={(e) => setVision(e.target.value)}
-              ></textarea>
+              selectedLanguage === "EN" ? (
+                <textarea
+                  rows={5}
+                  className="mt-2 w-full p-4 outline-none border"
+                  value={vision_en}
+                  onChange={(e) => setVision_en(e.target.value)}
+                ></textarea>
+              ) : (
+                <textarea
+                  rows={5}
+                  className="mt-2 w-full p-4 outline-none border"
+                  value={vision_mm}
+                  onChange={(e) => setVision_mm(e.target.value)}
+                ></textarea>
+              )
             ) : (
-              <h3 className="mt-2 text-slate-700">{homeInfo?.vision}</h3>
+              <h3 className="mt-2 text-slate-700">
+                {selectedLanguage ? homeInfo?.vision_en : homeInfo?.vision_mm}
+              </h3>
             )}
           </div>
           {/**Activity Main Video */}

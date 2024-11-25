@@ -2,9 +2,15 @@ import { motion } from "framer-motion";
 import Card from "../Cards/Card";
 import { SectionWrapper } from "../../hoc";
 import { useHomeStore } from "../../store/HomeStore";
+import { detectedLanguage } from "../../utils";
+import { useEffect, useState } from "react";
+import { useLanguage } from "../../store/LanguageStore";
 
 const HeroSection = () => {
   const { homeInfo } = useHomeStore();
+
+  const { language } = useLanguage();
+
   return (
     <div className="w-full min-h-screen relative ">
       <img
@@ -19,7 +25,9 @@ const HeroSection = () => {
             transition={{ duration: 1 }}
             className="text-xl md:text-3xl lg:text-4xl font-bold text-white"
           >
-            {homeInfo?.hero.title}
+            {language === "English"
+              ? homeInfo?.hero.title_en
+              : homeInfo.hero.title_mm}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 50 }}
@@ -27,7 +35,9 @@ const HeroSection = () => {
             transition={{ delay: 0.5, duration: 1 }}
             className="text-[15px] mg:text-lg lg:text-xl font-semibold mt-5 text-white"
           >
-            {homeInfo?.hero.subTitle}
+            {language === "English"
+              ? homeInfo?.hero.subTitle_en
+              : homeInfo?.hero.subTitle_mm}
           </motion.p>
         </div>
       </div>

@@ -49,14 +49,19 @@ export const useHomeStore = create((set) => ({
     }
   },
   updateHomePage: async ({
-    heroTitle,
-    heroDescription,
+    heroTitle_en,
+    heroDescription_en,
+    heroTitle_mm,
+    heroDescription_mm,
     heroBackgroundImage,
     bgFile,
-    about,
+    about_en,
+    about_mm,
     activityVideoUrl,
-    mission,
-    vision,
+    mission_en,
+    vision_en,
+    mission_mm,
+    vision_mm,
     phone,
     email,
     facebook,
@@ -64,21 +69,26 @@ export const useHomeStore = create((set) => ({
   }) => {
     try {
       const form = new FormData();
-      form.append("heroTitle", heroTitle);
-      form.append("heroDescription", heroDescription);
+      form.append("heroTitle_en", heroTitle_en);
+      form.append("heroDescription_en", heroDescription_en);
+      form.append("heroTitle_mm", heroTitle_mm);
+      form.append("heroDescription_mm", heroDescription_mm);
       form.append("heroBackgroundImage", heroBackgroundImage);
       form.append("bgFile", bgFile);
-      form.append("about", about);
+      form.append("about_en", about_en);
+      form.append("about_mm", about_mm);
       form.append("activityVideoUrl", activityVideoUrl);
-      form.append("mission", mission);
-      form.append("vision", vision);
+      form.append("mission_en", mission_en);
+      form.append("vision_en", vision_en);
+      form.append("mission_mm", mission_mm);
+      form.append("vision_mm", vision_mm);
       form.append("phone", phone);
       form.append("email", email);
       form.append("facebook", facebook);
       form.append("telegram", telegram);
       set({ isHomeUpdateLoading: true });
       const response = await axios.patch(
-        `${BACKEND_URL}/api/home/6720bb42d1605b7a6d5160ae`,
+        `${BACKEND_URL}/api/home/6744552d56678a55959234d6`,
         form,
         {
           headers: { "Content-Type": "multipart/form-data" },

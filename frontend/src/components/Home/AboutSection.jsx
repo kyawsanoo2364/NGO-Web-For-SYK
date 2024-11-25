@@ -29,21 +29,29 @@ const AboutSection = () => {
             reverse={true}
             title={translate.whoWeAre}
             icon={"/whoweare.png"}
-            description={homeInfo?.about}
+            description={
+              language === "English" ? homeInfo?.about_en : homeInfo?.about_mm
+            }
             delay={0}
           />
           <VisionMissionCard
             reverse={false}
             title={translate.ourMission}
             icon={"/mission.png"}
-            description={homeInfo?.mission}
+            description={
+              language === "English"
+                ? homeInfo?.mission_en
+                : homeInfo?.mission_mm
+            }
             delay={0.5}
           />
           <VisionMissionCard
             reverse={true}
             title={translate.ourVision}
             icon={"/vision.png"}
-            description={homeInfo?.vision}
+            description={
+              language === "English" ? homeInfo?.vision_en : homeInfo?.vision_mm
+            }
             delay={0.8}
           />
         </div>
