@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import { useBlogStore } from "../store/BlogStore";
 import parser from "html-react-parser";
 import "../tiptap-tailwind.css";
+import { useLanguage } from "../store/LanguageStore";
 
 const BlogPostDetails = () => {
   const currentUrl = window.location.href;
@@ -17,6 +18,7 @@ const BlogPostDetails = () => {
   const { getBlogDetails, blog, blogs } = useBlogStore();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguage();
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -60,7 +62,7 @@ const BlogPostDetails = () => {
                   <div className="w-full lg:p-4 ">
                     {/**Title */}
                     <h1 className="text-slate-800 font-bold text-balance text-xl my-5 px-1 ">
-                      {blog?.title}
+                      {language === "English" ? blog?.title_en : blog?.title_mm}
                     </h1>
                     {/**Media */}
                     <div className="relative w-full h-[250px] md:h-[350px] lg:h-[450px] bg-black ">
@@ -94,7 +96,12 @@ const BlogPostDetails = () => {
                     </div>
                     {/**Description Here */}
                     <div className="mt-4  px-2 select-none ProseMirror">
-                      {blog && parser(blog?.description)}
+                      {blog &&
+                        parser(
+                          language === "English"
+                            ? blog?.description_en
+                            : blog?.description_mm
+                        )}
                     </div>
                     {/** Share Social Media */}
                     <Share shareTitle={blog?.title} currentUrl={currentUrl} />
@@ -129,10 +136,16 @@ const BlogPostDetails = () => {
                             </div>
                             <div className="flex-1">
                               <h3 className="text-[16px] font-semibold text-slate-700 line-clamp-1 hover:text-green-500">
-                                {b.title}
+                                {language === "English"
+                                  ? b.title_en
+                                  : b.title_mm}
                               </h3>
                               <p className="line-clamp-2 text-ellipsis text-sm text-slate-500">
-                                {parser(b.description)}
+                                {parser(
+                                  language === "English"
+                                    ? b.description_en
+                                    : b.description_mm
+                                )}
                               </p>
                             </div>
                           </Link>

@@ -12,12 +12,14 @@ import moment from "moment";
 import "../tiptap-tailwind.css";
 import parser from "html-react-parser";
 import { formatTime } from "../utils";
+import { useLanguage } from "../store/LanguageStore";
 
 const EventDetails = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { getEvent, getEvents, events } = useEventStore();
+  const { language } = useLanguage();
 
   async function fetchData() {
     try {
@@ -38,7 +40,7 @@ const EventDetails = () => {
   useEffect(() => {
     fetchData();
     document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
-  }, [id]);
+  }, [id, language]);
 
   const currentUrl = window.location.href;
 
@@ -69,21 +71,27 @@ const EventDetails = () => {
                 </div>
                 <div className="mt-2">
                   <h1 className="text-xl font-bold text-slate-700">
-                    {data?.title}
+                    {language === "English" ? data?.title_en : data?.title_mm}
                   </h1>
                   <p className="flex gap-2 text-[16px] text-slate-600 mt-2 items-center">
                     <FaMapLocationDot />
-                    {data?.location}
+                    {language === "English"
+                      ? data?.location_en
+                      : data?.location_mm}
                   </p>
                   <p className="flex gap-2 text-[16px] text-slate-600 mt-2 items-center">
                     <FaRegClock />
                     {formatTime(data?.time)}
                   </p>
                   <p className="mt-3 text-slate-700  ProseMirror">
-                    {parser(data?.description || "")}
+                    {parser(
+                      language === "English"
+                        ? data?.description_en || ""
+                        : data?.description_mm || ""
+                    )}
                   </p>
                 </div>
-                <Share shareTitle={data?.title} currentUrl={currentUrl} />
+                <Share shareTitle={data?.title_en} currentUrl={currentUrl} />
               </div>
             )}
             <div className="flex-[0.3]">
@@ -120,13 +128,22 @@ const EventDetails = () => {
                             />
                             <div className="flex flex-col w-full">
                               <h2 className="text-md lg:text-xl hover:text-orange-400 cursor-pointer font-bold text-slate-600  line-clamp-1">
-                                {event?.title}
+                                {language === "English"
+                                  ? event?.title_en
+                                  : event?.title_mm}
                               </h2>
                               <p className="pl-2 line-clamp-3 my-1 lg:text-[16px] text-sm">
-                                {parser(event?.description)}
+                                {parser(
+                                  language === "English"
+                                    ? event?.description_en
+                                    : event?.description_mm
+                                )}
                               </p>
                               <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-700 line-clamp-1">
-                                <FaMapLocationDot /> {event?.location}
+                                <FaMapLocationDot />{" "}
+                                {language === "English"
+                                  ? event?.location_en
+                                  : event?.location_mm}
                               </p>
                               <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-600">
                                 <FaRegClock /> {formatTime(event?.time)}

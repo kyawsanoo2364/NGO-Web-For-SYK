@@ -19,7 +19,7 @@ const EducationProject = () => {
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      const [err, res] = await handlePromise(getAllProjects());
+      const [err, res] = await handlePromise(getAllProjects({ limit: 3 }));
       if (err) {
         setIsLoading(false);
         console.log(err);
@@ -53,6 +53,7 @@ const EducationProject = () => {
                     idx={idx + 1}
                     data={p}
                     translate={translate}
+                    language={language}
                   />
                 ))}
         </div>

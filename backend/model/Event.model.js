@@ -3,15 +3,27 @@ import mongoose from "mongoose";
 const eventModel = new mongoose.Schema({
   image: { type: String, default: null },
   imageId: { type: String },
-  title: {
+  title_en: {
     type: String,
     required: true,
   },
-  description: {
+  title_mm: {
     type: String,
     required: true,
   },
-  location: {
+  description_en: {
+    type: String,
+    required: true,
+  },
+  description_mm: {
+    type: String,
+    required: true,
+  },
+  location_en: {
+    type: String,
+    required: true,
+  },
+  location_mm: {
     type: String,
     required: true,
   },

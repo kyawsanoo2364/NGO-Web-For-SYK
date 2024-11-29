@@ -51,7 +51,13 @@ const extensions = [
   HightLight,
 ];
 
-const TextEditor = ({ onChangeValue, content = ``, height }) => {
+const TextEditor = ({
+  onChangeValue,
+  content = ``,
+  height,
+  style,
+  required = false,
+}) => {
   const [format, setFormat] = useState("Paragraph");
   const setParagraph = () => {
     editor.chain().focus().setParagraph().run();
@@ -63,13 +69,13 @@ const TextEditor = ({ onChangeValue, content = ``, height }) => {
   };
   const editor = useEditor({
     extensions,
-    content,
+    content: content,
     onUpdate({ editor }) {
       onChangeValue(editor.getHTML());
     },
   });
   return (
-    <div className="my-10 w-full ">
+    <div className="my-10 w-full " style={style}>
       <div className="w-full p-2 bg-gray-100">
         <div className="flex gap-1 items-center text-sm lg:text-base flex-wrap ">
           <button
@@ -296,7 +302,11 @@ const TextEditor = ({ onChangeValue, content = ``, height }) => {
             : " min-h-[300px] max-h-[300px]"
         } overflow-y-auto`}
       >
-        <EditorContent editor={editor} className="ProseMirror " />
+        <EditorContent
+          editor={editor}
+          className="ProseMirror "
+          required={required}
+        />
       </div>
     </div>
   );

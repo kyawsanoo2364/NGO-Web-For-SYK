@@ -6,6 +6,7 @@ import { CgSpinnerAlt } from "react-icons/cg";
 import { motion } from "framer-motion";
 import { useEduProjectStore } from "../../store/EduProjectStore";
 import { handlePromise } from "../../utils";
+import { languages } from "../../Languages.json";
 
 const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
   const inputFileRef = useRef(null);
@@ -15,10 +16,14 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { createProject, updateProject } = useEduProjectStore();
   const [form, setForm] = useState({
-    title: edit ? data?.title : "",
-    description: edit ? data?.description : "",
+    title_en: edit ? data?.title_en : "",
+    title_mm: edit ? data?.title_mm : "",
+    description_en: edit ? data?.description_en : "",
+    description_mm: edit ? data?.description_mm : "",
     logoImage: null,
-    location: edit ? data?.location : "",
+    location_en: edit ? data?.location_en : "",
+    location_mm: edit ? data?.location_mm : "",
+
     date: edit ? data?.date.split("T")[0] : "",
   });
 
@@ -45,11 +50,14 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
       setIsLoading(true);
       const [err, res] = await handlePromise(
         updateProject(data._id, {
-          title: form.title,
-          description: form.description,
+          title_en: form.title_en,
+          description_en: form.description_en,
+          title_mm: form.title_mm,
+          description_mm: form.description_mm,
           date: form.date,
           logoImage: form.logoImage,
-          location: form.location,
+          location_en: form.location_en,
+          location_mm: form.location_mm,
         })
       );
       if (err) {
@@ -66,11 +74,14 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
       setIsLoading(true);
       const [err, res] = await handlePromise(
         createProject({
-          title: form.title,
-          description: form.description,
+          title_en: form.title_en,
+          description_en: form.description_en,
+          title_mm: form.title_mm,
+          description_mm: form.description_mm,
           date: form.date,
           logoImage: form.logoImage,
-          location: form.location,
+          location_en: form.location_en,
+          location_mm: form.location_mm,
         })
       );
       if (err) {
@@ -88,7 +99,7 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
     <div className="fixed top-0 bottom-0 right-0 left-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
       <div className="max-w-4xl p-4 bg-white w-full rounded relative">
         {isLoading && (
-          <div className="absolute top-0 bottom-0 right-0 left-0 bg-gray-300 bg-opacity-35 z-20 flex items-center justify-center">
+          <div className="absolute top-0 bottom-0 right-0 left-0 bg-gray-300 bg-opacity-35 z-20 flex items-center justify-center cursor-progress">
             <div className="flex flex-col justify-center items-center gap-3">
               <CgSpinnerAlt className="animate-spin size-7" />
               <p className="animate-bounce">Uploading...</p>
@@ -103,8 +114,15 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
             <Input
               placeholder={"Enter Project Title"}
               label={"Title"}
-              name={"title"}
-              value={form.title}
+              name={"title_en"}
+              value={form.title_en}
+              onChange={handleChange}
+            />
+            <Input
+              placeholder={languages.my.enterTitle}
+              label={languages.my.title}
+              name={"title_mm"}
+              value={form.title_mm}
               onChange={handleChange}
             />
             <Input
@@ -115,10 +133,17 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
               onChange={handleChange}
             />
             <Input
-              label={"Location"}
-              placeholder={"Enter location city or place name"}
-              name={"location"}
-              value={form.location}
+              label={"Location_en"}
+              placeholder={"Enter location_en city or place name"}
+              name={"location_en"}
+              value={form.location_en}
+              onChange={handleChange}
+            />
+            <Input
+              label={languages.my.location}
+              placeholder={languages.my.enterLocation}
+              name={"location_mm"}
+              value={form.location_mm}
               onChange={handleChange}
             />
             <label className="text-slate-800 font-semibold">Logo</label>
@@ -142,11 +167,27 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
                 <FaUpload className="size-14 text-gray-400 " />
               </div>
             </div>
-            <div className="my-3 px-2">
+            <div className="my-10 px-2">
+              <label htmlFor="" className="mb-4">
+                Description EN
+              </label>
               <TextEditor
-                content={form.description}
+                style={{ margin: 0 }}
+                content={form.description_en}
                 onChangeValue={(value) =>
-                  setForm({ ...form, description: value })
+                  setForm({ ...form, description_en: value })
+                }
+              />
+            </div>
+            <div className="my-10 px-2">
+              <label htmlFor="" className="mb-4">
+                {languages.my.description} MM
+              </label>
+              <TextEditor
+                style={{ margin: 0 }}
+                content={form.description_mm}
+                onChangeValue={(value) =>
+                  setForm({ ...form, description_mm: value })
                 }
               />
             </div>
@@ -167,7 +208,7 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
               className="px-4 py-2 bg-blue-400 text-white rounded"
               disabled={isLoading}
             >
-              {isLoading ? "Please wait..." : "Upload"}
+              {isLoading ? "Please wait..." : edit ? "Update" : "Upload"}
             </motion.button>
           </div>
         </form>

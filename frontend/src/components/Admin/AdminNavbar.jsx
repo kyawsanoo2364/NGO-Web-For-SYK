@@ -140,6 +140,12 @@ const AdminNavbar = () => {
             Home
           </Link>
           <Link
+            to={"/admin/dashboard/users"}
+            className="text-slate-600 text-start px-4 rounded text-lg font-semibold w-full py-2 hover:bg-gray-100 "
+          >
+            Users
+          </Link>
+          <Link
             to={"/admin/dashboard/eventLists"}
             className="text-slate-600 text-start px-4 rounded text-lg font-semibold w-full py-2 hover:bg-gray-100 "
           >

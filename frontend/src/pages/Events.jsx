@@ -70,7 +70,10 @@ const Events = () => {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mt-2 text-slate-600 px-3 text-sm lg:text-lg">
-                    <FaMapLocationDot /> {events[0]?.location}
+                    <FaMapLocationDot />{" "}
+                    {language === "English"
+                      ? events[0]?.location_en
+                      : events[0]?.location_mm}
                   </div>
                   <div className="text-sm lg:text-lg flex items-center gap-2 mt-2 text-slate-600 px-3">
                     <FaRegClock /> {formatTime(events[0]?.time)}
@@ -80,7 +83,9 @@ const Events = () => {
                       to={"/event/" + events[0]?._id}
                       className="text-lg text-center font-bold lg:text-2xl hover:text-orange-500 cursor-pointer text-slate-600"
                     >
-                      {events[0]?.title}
+                      {language === "English"
+                        ? events[0]?.title_en
+                        : events[0].title_mm}
                     </Link>
                   </div>
                 </div>
@@ -122,13 +127,20 @@ const Events = () => {
                         />
                         <div className="flex flex-col w-full">
                           <h2 className="text-lg lg:text-xl hover:text-orange-400 cursor-pointer font-bold text-slate-600  line-clamp-1">
-                            {event.title}
+                            {language === "English"
+                              ? event.title_en
+                              : event.title_mm}
                           </h2>
                           <p className="text-balance text-slate-500 pl-2 line-clamp-3 my-1 lg:text-[16px] text-sm">
-                            {parser(event.description)}
+                            {language === "English"
+                              ? parser(event.description_en)
+                              : parser(event.description_mm)}
                           </p>
                           <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-700">
-                            <FaMapLocationDot /> {event.location}
+                            <FaMapLocationDot />{" "}
+                            {language === "English"
+                              ? event.location_en
+                              : event.location_mm}
                           </p>
                           <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-600">
                             <FaRegClock /> {event.time}

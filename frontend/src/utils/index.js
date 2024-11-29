@@ -2,9 +2,11 @@ import { toast } from "react-toastify";
 import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { languages } from "../Languages.json";
-import { useLanguage } from "../store/LanguageStore";
 
-export const BACKEND_URL = "http://localhost:5000";
+export const BACKEND_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000"
+    : `${window.location.origin}`;
 
 export const PasswordChecker = {
   isValid: (password) => {

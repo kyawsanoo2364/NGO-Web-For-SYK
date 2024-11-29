@@ -6,11 +6,20 @@ import { BACKEND_URL, handlePromise } from "../utils";
 export const useBlogStore = create((set) => ({
   blogs: null,
   blog: null,
-  createBlog: async ({ title, description, videoURL, imageFiles }) => {
+  createBlog: async ({
+    title_en,
+    title_mm,
+    description_en,
+    description_mm,
+    videoURL,
+    imageFiles,
+  }) => {
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
+      formData.append("title_en", title_en);
+      formData.append("title_mm", title_mm);
+      formData.append("description_en", description_en);
+      formData.append("description_mm", description_mm);
       formData.append("videoURL", videoURL);
 
       for (let i = 0; i < imageFiles.length; i++) {
@@ -19,7 +28,7 @@ export const useBlogStore = create((set) => ({
 
       const response = await axios.post(`${BACKEND_URL}/api/blogs`, formData);
       if (response) {
-        set({ blogs: null });
+        set((state) => ({ blogs: [...state.blogs, response.data.content] }));
         toast.success("Post created!");
         return response;
       }
@@ -55,12 +64,23 @@ export const useBlogStore = create((set) => ({
   },
   updateBlog: async (
     id,
-    { title, description, videoURL, imageFiles, media, removeImagesId }
+    {
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      videoURL,
+      imageFiles,
+      media,
+      removeImagesId,
+    }
   ) => {
     try {
       const form = new FormData();
-      form.append("title", title);
-      form.append("description", description);
+      form.append("title_en", title_en);
+      form.append("description_en", description_en);
+      form.append("title_mm", title_mm);
+      form.append("description_mm", description_mm);
       form.append("videoURL", videoURL);
       form.append("media", JSON.stringify(media));
 
@@ -77,7 +97,11 @@ export const useBlogStore = create((set) => ({
         form
       );
       if (response) {
-        set({ blogs: null });
+        set((state) => ({
+          blogs: state.blogs.map((b) =>
+            b._id === id ? { ...b, ...response.data.content } : b
+          ),
+        }));
         return response;
       }
     } catch (error) {
@@ -89,7 +113,7 @@ export const useBlogStore = create((set) => ({
     try {
       const response = await axios.delete(`${BACKEND_URL}/api/blogs/${id}`);
       if (response) {
-        set({ blogs: null });
+        set((state) => ({ blogs: state.blogs.filter((b) => b._id !== id) }));
         return response;
       }
     } catch (error) {

@@ -6,18 +6,25 @@ import { useEffect, useState } from "react";
 
 import { ModleView } from "../hoc";
 import { useEduProjectStore } from "../store/EduProjectStore";
-import { handlePromise } from "../utils";
+import { detectedLanguage, handlePromise } from "../utils";
+import { useLanguage } from "../store/LanguageStore";
 
 const EducationProjects = () => {
   const { projects, getAllProjects } = useEduProjectStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
   useEffect(() => {
     document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      const [err, res] = await handlePromise(getAllProjects());
+      const [err, res] = await handlePromise(getAllProjects({ limit: 10 }));
       if (err) {
         setIsLoading(false);
         console.log(err);
@@ -53,12 +60,20 @@ const EducationProjects = () => {
                     <EduCard key={"edu+" + idx} idx={idx + 1} isLoading />
                   ))
                 : projects?.map((p, idx) => (
-                    <EduCard key={"edu+" + idx} idx={idx + 1} data={p} />
+                    <EduCard
+                      key={"edu+" + idx}
+                      idx={idx + 1}
+                      data={p}
+                      language={language}
+                      translate={translate}
+                    />
                   ))}
             </div>
-            <button className="mx-auto border px-4 py-2 hover:bg-slate-200">
+            {/**
+             *  <button className="mx-auto border px-4 py-2 hover:bg-slate-200">
               Load More...
             </button>
+             */}
           </div>
         </div>
       </div>

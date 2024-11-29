@@ -41,8 +41,8 @@ const LatestNewSection = () => {
   return (
     <div className=" my-10">
       <div className="container mx-auto relative">
-        <div className="">
-          <h1 className="flex gap-2 items-center text-2xl text-slate-800 font-bold ">
+        <div className="mx-4">
+          <h1 className="flex gap-2 items-center text-lg md:text-2xl text-slate-800 font-bold ">
             {translate.latestNews}{" "}
             <IoIosArrowForward className="size-5 text-slate-800 " />{" "}
             <Link
@@ -60,10 +60,14 @@ const LatestNewSection = () => {
               <BlogPostCard
                 key={"blog+" + idx}
                 img={blog.media[0].url}
-                title={blog.title}
+                title={language === "English" ? blog.title_en : blog.title_mm}
                 videoUrl={blog.videoURL}
                 time={moment(blog.createdAt).fromNow()}
-                description={blog.description}
+                description={
+                  language === "English"
+                    ? blog.description_en
+                    : blog.description_mm
+                }
                 linkTo={"/blogs/" + blog._id}
                 translate={translate}
               />

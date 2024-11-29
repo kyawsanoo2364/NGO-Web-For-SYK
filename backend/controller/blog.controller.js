@@ -38,17 +38,27 @@ export const getBlogDetails = async (req, res) => {
 
 export const PostBlog = async (req, res) => {
   try {
-    const { title, description, videoURL } = req.body;
+    const { title_en, title_mm, description_en, description_mm, videoURL } =
+      req.body;
 
-    if (!title || !description || !req.media || req.media.length === 0) {
+    if (
+      !title_en ||
+      !title_mm ||
+      !description_en ||
+      !description_mm ||
+      !req.media ||
+      req.media.length === 0
+    ) {
       return res
         .status(400)
         .json({ message: "All fields are required!", success: false });
     }
 
     const post = new Blog({
-      title,
-      description,
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
       media: req.media,
       videoURL,
     });
@@ -71,7 +81,14 @@ export const PostBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, media, removeImagesId } = req.body;
+    const {
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      media,
+      removeImagesId,
+    } = req.body;
     let m = JSON.parse(media);
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({});
@@ -99,7 +116,7 @@ export const updateBlog = async (req, res) => {
       m = [...JSON.parse(media), ...images];
     }
 
-    if (!title || !description || !m) {
+    if (!title_en || !title_mm || !description_en || !description_mm || !m) {
       return res
         .status(400)
         .json({ message: "All fields are required", success: false });
@@ -107,8 +124,10 @@ export const updateBlog = async (req, res) => {
     const updateBlog = await Blog.findByIdAndUpdate(
       id,
       {
-        title,
-        description,
+        title_en,
+        title_mm,
+        description_en,
+        description_mm,
         media: m,
       },
       { new: true }

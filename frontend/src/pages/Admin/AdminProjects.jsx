@@ -4,27 +4,36 @@ import { FaPlus } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import CEEduProjectCardModal from "../../components/Modal/CEEduProjectCardModal";
 import { useEduProjectStore } from "../../store/EduProjectStore";
-import { handlePromise } from "../../utils";
+import { detectedLanguage, handlePromise } from "../../utils";
 import EduCard from "../../components/Cards/EduCard";
+import { useLanguage } from "../../store/LanguageStore";
+import ToggleSwitchButton from "../../components/toggleSwitchButton";
+import { IoMdRefresh } from "react-icons/io";
 
 const AdminProjects = () => {
   const [showCEModalCard, setShowCEModalCard] = useState(false);
   const { getAllProjects, projects } = useEduProjectStore();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(projects);
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
+
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      const [err, res] = await handlePromise(getAllProjects());
-      if (err) {
-        setIsLoading(false);
-        console.log(err);
-        return;
-      }
-      if (res) {
-        setIsLoading(false);
-      }
+    setTranslate(detectedLanguage());
+  }, [language]);
+  async function fetchData() {
+    setIsLoading(true);
+    const [err, res] = await handlePromise(getAllProjects({ limit: 10 }));
+    if (err) {
+      setIsLoading(false);
+      console.log(err);
+      return;
     }
+    if (res) {
+      setIsLoading(false);
+    }
+  }
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -35,10 +44,31 @@ const AdminProjects = () => {
       )}
       <div className="min-h-screen w-full p-2">
         <div className="w-full h-full border">
-          <h1 className="text-2xl text-slate-800 font-bold p-4">
-            Education Projects
-          </h1>
-          <div className="mt-4 flex justify-end items-center mx-5">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl text-slate-800 font-bold p-4">
+              Education Projects
+            </h1>
+            <div className="flex items-center gap-2 mx-10">
+              <span>EN</span>
+              <ToggleSwitchButton
+                onChange={(bool) =>
+                  bool
+                    ? setSelectedLanguage("Myanmar")
+                    : setSelectedLanguage("English")
+                }
+              />
+              <span>MM</span>
+            </div>
+          </div>
+
+          <div className="mt-4 flex justify-between items-center mx-5">
+            <button
+              className="px-4 py-2 rounded-full border text-gray-500 flex items-center gap-2"
+              onClick={() => fetchData()}
+            >
+              Refresh
+              <IoMdRefresh />
+            </button>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
@@ -69,6 +99,8 @@ const AdminProjects = () => {
                   key={"educard+" + idx}
                   hideDonateButton
                   data={project}
+                  translate={translate}
+                  language={selectedLanguage}
                 />
               ))}
             </div>

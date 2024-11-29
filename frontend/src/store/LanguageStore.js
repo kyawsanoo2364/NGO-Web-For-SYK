@@ -7,7 +7,8 @@ export const useLanguage = create((set) => ({
     set({ language: language });
   },
   getCurrentLanguage: () => {
-    const language = JSON.parse(localStorage.getItem("language"));
+    const language = JSON.parse(localStorage.getItem("language")) || "English";
+
     set({ language: language });
   },
 }));

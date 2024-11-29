@@ -54,9 +54,15 @@ const EventSection = () => {
                     key={"event " + index}
                     img={data.image}
                     date={moment(data.date).format("ll")}
-                    location={data.location}
+                    location={
+                      language === "English"
+                        ? data.location_en
+                        : data.location_mm
+                    }
                     time={data.time}
-                    title={data.title}
+                    title={
+                      language === "English" ? data.title_en : data.title_mm
+                    }
                   />
                 );
               })}

@@ -25,6 +25,7 @@ const EventCard = ({
   imageUrl,
   imageId,
   description,
+  data,
 }) => {
   const { deleteEvent } = useEventStore();
   const [isDeleteLoading, setDeleteLoading] = useState(false);
@@ -77,17 +78,7 @@ const EventCard = ({
         <CEEventPostCard
           isEdit
           onClose={() => setShowModal(false)}
-          data={{
-            img,
-            title,
-            description,
-            time,
-            location,
-            date,
-            id,
-            imageUrl,
-            imageId,
-          }}
+          data={data}
         />
       )}
       <motion.div

@@ -31,7 +31,7 @@ const Navbar = () => {
               alt=""
               className="size-10 md:size-14 rounded-sm"
             />
-            <h1 className="lg:hidden block text-xl md:text-2xl font-bold">
+            <h1 className="lg:hidden block text-base md:text-2xl font-bold">
               {header?.companyName}
             </h1>
           </Link>
@@ -78,7 +78,7 @@ const Navbar = () => {
               {translate.events}
             </Link>
             <a
-              href="/#projects"
+              href="/education-projects"
               className={`${
                 language === "Myanmar" ? "text-[12px]" : "text-[16px]"
               }  hover:font-semibold`}
@@ -123,7 +123,8 @@ const Navbar = () => {
           </div>
         </div>
         {/**Mobile version */}
-        <div className="inline-block lg:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
+          <LanguageDropdown />
           <button className="mt-1 p-1" onClick={() => setShowMenu(!showMenu)}>
             {showMenu ? (
               <IoClose className="size-8" />
@@ -135,59 +136,60 @@ const Navbar = () => {
       </div>
       {/**Mobile Version */}
       {showMenu && (
-        <div className="lg:hidden  w-full p-4 flex flex-col gap-4 text-xl">
+        <div
+          className={`lg:hidden  w-full p-4 flex flex-col gap-4 ${
+            language === "English" ? "text-xl" : "text-lg"
+          } `}
+        >
           <a
             href="/"
             className=" hover:font-semibold "
             onClick={() => setShowMenu(false)}
           >
-            Home
+            {translate.home}
           </a>
           <a
             href="/#about-us"
             className="hover:font-semibold "
             onClick={() => setShowMenu(false)}
           >
-            About us
+            {translate.aboutUs}
           </a>
           <a
             href="/#partnerships"
             className=" hover:font-semibold "
             onClick={() => setShowMenu(false)}
           >
-            Partnership
+            {translate.partnerships}
           </a>
           <Link
             to={"/blogs"}
             className=" hover:font-semibold "
             onClick={() => setShowMenu(false)}
           >
-            Blogs
+            {translate.blogs}
           </Link>
           <Link
             to="/events"
             className=" hover:font-semibold "
             onClick={() => setShowMenu(false)}
           >
-            Events
+            {translate.events}
           </Link>
           <a
             href="/#projects"
             className=" hover:font-semibold "
             onClick={() => setShowMenu(false)}
           >
-            Projects
+            {translate.projects}
           </a>
           <a
             href="#"
             className=" hover:font-semibold "
             onClick={() => setShowMenu(false)}
           >
-            Contacts
+            {translate.contact}
           </a>
-          <Link to={"/login"} onClick={() => setShowMenu(false)}>
-            Sign in
-          </Link>
         </div>
       )}
     </nav>

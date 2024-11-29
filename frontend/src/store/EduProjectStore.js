@@ -6,9 +6,9 @@ import { toast } from "react-toastify";
 export const useEduProjectStore = create((set) => ({
   projects: null,
   project: null,
-  getAllProjects: async () => {
+  getAllProjects: async ({ limit = 10 }) => {
     const [err, res] = await handlePromise(
-      axios.get(`${BACKEND_URL}/api/edu-projects`)
+      axios.get(`${BACKEND_URL}/api/edu-projects?limit=${limit}`)
     );
     if (err) {
       throw err;
@@ -18,13 +18,38 @@ export const useEduProjectStore = create((set) => ({
       return res;
     }
   },
-  createProject: async ({ title, description, logoImage, location, date }) => {
+  getProjectDetails: async (id) => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/api/edu-projects/details/${id}`
+      );
+      if (response) {
+        set({ project: response.data.content });
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
+  createProject: async ({
+    title_en,
+    title_mm,
+    description_en,
+    description_mm,
+    logoImage,
+    location_en,
+    location_mm,
+    date,
+  }) => {
     const formData = new FormData();
 
-    formData.append("title", title);
-    formData.append("description", description);
+    formData.append("title_en", title_en);
+    formData.append("title_mm", title_mm);
+    formData.append("description_en", description_en);
+    formData.append("description_mm", description_mm);
     formData.append("imageFile", logoImage);
-    formData.append("location", location);
+    formData.append("location_en", location_en);
+    formData.append("location_mm", location_mm);
     formData.append("date", date);
 
     const [err, data] = await handlePromise(
@@ -57,13 +82,25 @@ export const useEduProjectStore = create((set) => ({
   },
   updateProject: async (
     id,
-    { title, description, logoImage, location, date }
+    {
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      logoImage,
+      location_en,
+      location_mm,
+      date,
+    }
   ) => {
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
+    formData.append("title_en", title_en);
+    formData.append("description_en", description_en);
+    formData.append("title_mm", title_mm);
+    formData.append("description_mm", description_mm);
     formData.append("logoImage", logoImage);
-    formData.append("location", location);
+    formData.append("location_en", location_en);
+    formData.append("location_mm", location_mm);
     formData.append("date", date);
     const [err, res] = await handlePromise(
       axios.patch(`${BACKEND_URL}/api/edu-projects/${id}`, formData)

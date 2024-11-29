@@ -16,12 +16,14 @@ import cors from "cors";
 import staffRoutes from "./routers/staff.routes.js";
 import partnershipRoutes from "./routers/partnership.routes.js";
 import privacyRoutes from "./routers/privacy.routes.js";
+import path from "path";
 
 dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      process.env.NODE_ENV === "development" ? "http://localhost:5173" : true,
 
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
@@ -30,6 +32,8 @@ app.use(
 app.use(express.json({ limit: "5mb" })); // Set JSON body size limit
 app.use(express.urlencoded({ limit: "5mb", extended: true })); // Set URL-encoded body size limit
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const __dirname = path.resolve();
 
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
@@ -43,6 +47,13 @@ app.use("/api/events", eventRoutes); //protect and admin only
 app.use("/api/staffs", staffRoutes);
 app.use("/api/partnerships", partnershipRoutes);
 app.use("/api/privacyPolicy", privacyRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "frontend/dist")));
+  app.use("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
+}
 
 app.listen(process.env.PORT, () => {
   connectToDB();

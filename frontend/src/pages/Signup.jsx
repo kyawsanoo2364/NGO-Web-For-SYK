@@ -10,12 +10,21 @@ import GenderInput from "../components/GenderInput";
 import { useAuthStore } from "../store/AuthStore";
 import { toast } from "react-toastify";
 import { ModleView } from "../hoc";
+import { detectedLanguage } from "../utils";
+import { useLanguage } from "../store/LanguageStore";
+import { memo } from "react";
 
 const Signup = () => {
   const { isLoading, signup } = useAuthStore();
   const [phone, setPhone] = useState();
   const [gender, setGender] = useState("male");
   const navigate = useNavigate();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
 
   const [formInput, setFormInput] = useState({
     email: "",
@@ -56,8 +65,8 @@ const Signup = () => {
           <h1 className="font-bold text-center text-xl">Sign up</h1>
           <form onSubmit={handleSubmit}>
             <Input
-              placeholder={"Enter Your Full Name"}
-              label={"FullName"}
+              placeholder={translate.enterYourFullName}
+              label={translate.fullName}
               inputType={"text"}
               name={"fullName"}
               value={formInput.fullName}
@@ -65,8 +74,8 @@ const Signup = () => {
               required={true}
             />
             <Input
-              placeholder={"Enter Your Email Address"}
-              label={"Email"}
+              placeholder={translate.enterEmail}
+              label={translate.email}
               inputType={"email"}
               name="email"
               required={true}
@@ -75,7 +84,7 @@ const Signup = () => {
             />
             <Input
               placeholder={""}
-              label={"Birthday"}
+              label={translate.birthday}
               inputType={"date"}
               name="birth"
               required={true}
@@ -92,8 +101,8 @@ const Signup = () => {
               onChange={setPhone}
             />
             <Input
-              placeholder={"Street,City,Region,Country"}
-              label={"Address"}
+              placeholder={translate.streetCityRegionCountry}
+              label={translate.address}
               inputType={"text"}
               name="location"
               required={true}
@@ -106,7 +115,7 @@ const Signup = () => {
             />
             <Input
               placeholder={"******"}
-              label={"Password"}
+              label={translate.password}
               inputType={"password"}
               name="password"
               required={true}
@@ -115,7 +124,7 @@ const Signup = () => {
             />
             <Input
               placeholder={"******"}
-              label={"Confirm Password"}
+              label={translate.confirmPassword}
               inputType={"password"}
               name={"confirmPassword"}
               value={formInput.confirmPassword}
@@ -123,10 +132,11 @@ const Signup = () => {
               required={true}
             />
             <p className="my-5">
-              Already have an account? Please{" "}
+              {translate.alreadyHaveAnAccountPlease}{" "}
               <Link to={"/login"} className="text-blue-500 hover:underline">
                 Sign in
-              </Link>
+              </Link>{" "}
+              {language === "Myanmar" && "လုပ်ပါ။"}
             </p>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -137,10 +147,11 @@ const Signup = () => {
             >
               {isLoading ? (
                 <div className="flex items-center gap-2 justify-center">
-                  <LoadingSpinner size={"size-6"} /> Registering. Please wait...
+                  <LoadingSpinner size={"size-6"} /> {translate.registering}
+                  {translate.pleaseWait}
                 </div>
               ) : (
-                "Register"
+                translate.register
               )}
             </motion.button>
           </form>
@@ -149,4 +160,4 @@ const Signup = () => {
     </>
   );
 };
-export default ModleView(Signup);
+export default memo(ModleView(Signup));

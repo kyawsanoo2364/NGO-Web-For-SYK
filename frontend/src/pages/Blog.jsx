@@ -12,6 +12,7 @@ import moment from "moment";
 import { useAuthStore } from "../store/AuthStore";
 import { detectedLanguage } from "../utils";
 import { useLanguage } from "../store/LanguageStore";
+import { BiSolidBookContent } from "react-icons/bi";
 
 const Blog = () => {
   const [showCEModal, setShowCEModal] = useState(false);
@@ -38,7 +39,7 @@ const Blog = () => {
 
   useEffect(() => {
     fetchData();
-  }, [blogs]);
+  }, [language]);
   useEffect(() => {
     document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -87,8 +88,11 @@ const Blog = () => {
                 ))}
               </div>
             ) : !isLoading && blogs?.length === 0 ? (
-              <div className="flex justify-center items-center mt-5 max-h-[500px] h-full text-xl font-bold text-slate-700 w-full">
-                No Blog Post yet.
+              <div className="flex justify-center items-center mt-5 max-h-[500px] h-full text-xl font-bold text-slate-500 w-full">
+                <div className="flex flex-col gap-4 items-center mt-20 select-none">
+                  <BiSolidBookContent className="size-20" />{" "}
+                  <span>No Blog Post yet.</span>
+                </div>
               </div>
             ) : (
               <div className="mt-5 max-h-[500px]  h-full overflow-y-auto flex flex-col justify-start py-10 items-center gap-10 ">
@@ -96,9 +100,15 @@ const Blog = () => {
                   <BlogPostCard
                     key={"blog+" + idx}
                     img={blog.media[0].url}
-                    title={blog.title}
+                    title={
+                      language === "English" ? blog.title_en : blog.title_mm
+                    }
                     time={moment(blog.createdAt).fromNow()}
-                    description={blog.description}
+                    description={
+                      language === "English"
+                        ? blog.description_en
+                        : blog.description_mm
+                    }
                     videoUrl={blog.videoURL}
                     linkTo={"/blogs/" + blog._id}
                     data={blog}

@@ -6,24 +6,31 @@ import { BACKEND_URL } from "../utils";
 export const useEventStore = create((set) => ({
   events: null,
   createEvent: async ({
-    title,
-    description,
-    location,
+    title_en,
+    title_mm,
+    description_en,
+    description_mm,
+    location_en,
+    location_mm,
     time,
     date,
     imageFile,
   }) => {
     try {
       const form = new FormData();
-      form.append("title", title);
-      form.append("description", description);
+      form.append("title_en", title_en);
+      form.append("title_mm", title_mm);
+      form.append("description_en", description_en);
+      form.append("description_mm", description_mm);
       form.append("imageFile", imageFile);
-      form.append("location", location);
+      form.append("location_en", location_en);
+      form.append("location_mm", location_mm);
       form.append("date", date);
       form.append("time", time);
       const response = await axios.post(`${BACKEND_URL}/api/events`, form);
       if (response) {
         toast.success("Event is created successfully");
+        set((state) => ({ events: [...state.events, response.data.content] }));
         return response;
       }
     } catch (error) {
@@ -59,21 +66,27 @@ export const useEventStore = create((set) => ({
   },
   updateEvent: async ({
     id,
-    title,
-    description,
+    title_en,
+    title_mm,
+    description_en,
+    description_mm,
     imageFile,
     imageUrl,
     imageId,
     time,
-    location,
+    location_en,
+    location_mm,
     date,
   }) => {
     try {
       const form = new FormData();
-      form.append("title", title);
-      form.append("description", description);
+      form.append("title_en", title_en);
+      form.append("title_mm", title_mm);
+      form.append("description_en", description_en);
+      form.append("description_mm", description_mm);
       form.append("imageFile", imageFile);
-      form.append("location", location);
+      form.append("location_en", location_en);
+      form.append("location_mm", location_mm);
       form.append("date", date);
       form.append("time", time);
       form.append("imageUrl", imageUrl);
@@ -84,7 +97,13 @@ export const useEventStore = create((set) => ({
       );
       if (response) {
         toast.success("Event is updated successfully!");
-        set({ events: null });
+        set((state) => ({
+          events: state.events.map((e) =>
+            e._id === response.data.content._id
+              ? { ...e, ...response.data.content }
+              : e
+          ),
+        }));
         return response;
       }
     } catch (error) {
@@ -96,7 +115,7 @@ export const useEventStore = create((set) => ({
     try {
       const response = await axios.delete(`${BACKEND_URL}/api/events/${id}`);
       if (response) {
-        set({ events: null });
+        set((state) => ({ events: state.events.filter((e) => e._id !== id) }));
         toast.success("Event deleted successfully!");
         return response;
       }

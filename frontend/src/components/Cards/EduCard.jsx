@@ -19,6 +19,7 @@ const EduCard = ({
   hideDonateButton = false,
   isLoading = false,
   translate,
+  language,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [showConfirmBox, setShowConfirmBox] = useState(false);
@@ -160,21 +161,30 @@ const EduCard = ({
         </div>
         <div className="p-2">
           <h1 className="text-2xl font-bold text-slate-900 text-start">
-            {data?.title}
+            {language === "English" ? data?.title_en : data?.title_mm}
           </h1>
           <div className="mt-2 text-sm text-slate-700 flex flex-col gap-2 ">
             <span className="flex items-center gap-2 ">
-              <FaMapLocation className="size-4" /> {data?.location}
+              <FaMapLocation className="size-4" />{" "}
+              {language === "English" ? data?.location_en : data?.location_mm}
             </span>
             <span className="flex items-center gap-2">
               <IoTimeOutline /> {moment(data?.date).format("ll")}
             </span>
           </div>
           <div className=" mt-2 line-clamp-5 text-slate-600">
-            {data && parser(data?.description)}
+            {data &&
+              parser(
+                language === "English"
+                  ? data?.description_en
+                  : data?.description_mm
+              )}
           </div>
           <div className="mt-5 flex justify-end items-center">
-            <Link className="px-3 py-2 text-blue-500 border border-blue-400 mx-3 text-[16px] rounded-full">
+            <Link
+              className="px-3 py-2 text-blue-500 border border-blue-400 mx-3 text-[16px] rounded-full"
+              to={`/project/${data?._id}`}
+            >
               {translate.learnMore}
             </Link>
           </div>

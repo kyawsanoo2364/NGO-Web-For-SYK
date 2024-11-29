@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
-import Navbar from "./components/Navbar";
+
 import VerifyEmail from "./pages/VerifyEmail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import ForgotPassword from "./pages/ForgotPassword";
 import SendForgotEmailSuccess from "./pages/SendForgotEmailSuccess";
 import ResetPassword from "./pages/ResetPassword";
-import Footer from "./components/Footer";
 import Blog from "./pages/Blog";
 import EducationProjects from "./pages/EducationProjects";
 import Events from "./pages/Events";
@@ -37,6 +36,7 @@ import DonationPage from "./pages/DonationPage";
 import Error500Page from "./pages/Error500Page";
 import Error404Page from "./pages/Error404Page";
 import { useLanguage } from "./store/LanguageStore";
+import AdminUsers from "./pages/Admin/AdminUsers";
 
 function App() {
   const { user, fetchUser } = useAuthStore();
@@ -183,6 +183,12 @@ function App() {
                 ) : (
                   <Navigate to={"/"} />
                 )
+              }
+            />
+            <Route
+              path="/admin/dashboard/users"
+              element={
+                user?.role === "admin" ? <AdminUsers /> : <Navigate to={"/"} />
               }
             />
             <Route

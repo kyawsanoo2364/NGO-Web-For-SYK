@@ -6,15 +6,20 @@ import TextEditor from "../TextEditor";
 import { useBlogStore } from "../../store/BlogStore";
 import { FaSpinner } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
+import { languages } from "../../Languages.json";
 
 const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
   const inputFileRef = useRef(null);
 
   const [previewImages, setPreviewImages] = useState(isEdit ? data?.media : []);
   const { createBlog, updateBlog } = useBlogStore();
-  const [title, setTitle] = useState(isEdit ? data?.title : "");
-  const [description, setDescritpion] = useState(
-    isEdit ? data?.description : ""
+  const [title_en, setTitle_en] = useState(isEdit ? data?.title_en : "");
+  const [description_en, setDescritpion_en] = useState(
+    isEdit ? data?.description_en : ""
+  );
+  const [title_mm, setTitle_mm] = useState(isEdit ? data?.title_mm : "");
+  const [description_mm, setDescritpion_mm] = useState(
+    isEdit ? data?.description_mm : ""
   );
   const [videoURL, setVideoURL] = useState(isEdit ? data?.videoURL : "");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,8 +56,10 @@ const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
       try {
         setIsLoading(true);
         const res = await updateBlog(data._id, {
-          title,
-          description,
+          title_en,
+          title_mm,
+          description_en,
+          description_mm,
           videoURL,
           imageFiles,
           media: media,
@@ -60,6 +67,7 @@ const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
         });
         if (res) {
           setIsLoading(false);
+          onClose();
         }
       } catch (error) {
         setIsLoading(false);
@@ -73,8 +81,10 @@ const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
       try {
         setIsLoading(true);
         const response = await createBlog({
-          title,
-          description,
+          title_en,
+          title_mm,
+          description_en,
+          description_mm,
           videoURL,
           imageFiles,
         });
@@ -93,7 +103,7 @@ const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-25 z-30 flex justify-center items-center p-2">
       <div className="max-w-3xl w-full max-h-[500px] h-full bg-white mt-20 relative">
         {isLoading && (
-          <div className="absolute top-0 left-0 right-0 bottom-0 bg-gray-200 bg-opacity-50 z-30 flex items-center justify-center text-slate-600 text-xl font-semibold gap-4">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-gray-200 bg-opacity-50 z-30 flex items-center justify-center text-slate-600 text-xl font-semibold gap-4 cursor-progress">
             <FaSpinner className="size-6 animate-spin" />
             <div className="animate-bounce">
               {isEdit ? "Updating..." : "Uploading..."}{" "}
@@ -108,13 +118,22 @@ const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
             <Input
               label={"Title"}
               placeholder={"Enter title"}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={title_en}
+              required
+              onChange={(e) => setTitle_en(e.target.value)}
+            />
+            <Input
+              label={languages.my.title}
+              placeholder={languages.my.enterTitle}
+              value={title_mm}
+              required
+              onChange={(e) => setTitle_mm(e.target.value)}
             />
             <Input
               label={"Video URL"}
               placeholder={"https://youtube.com/akdfj"}
               value={videoURL}
+              required
               onChange={(e) => setVideoURL(e.target.value)}
             />
             <label className="text-lg text-slate-700 mb-2">Media</label>
@@ -159,10 +178,22 @@ const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
                 </div>
               ))}
             </div>
-            <div className="p-2 w-full overflow-hidden">
+            <div className="p-2 w-full overflow-hidden my-5">
+              <label>Description_EN</label>
               <TextEditor
-                onChangeValue={(value) => setDescritpion(value)}
-                content={description}
+                style={{ margin: 0 }}
+                onChangeValue={(value) => setDescritpion_en(value)}
+                content={description_en}
+                required
+              />
+            </div>
+            <div className="p-2 w-full overflow-hidden my-5">
+              <label>Description_MM</label>
+              <TextEditor
+                style={{ margin: 0 }}
+                onChangeValue={(value) => setDescritpion_mm(value)}
+                content={description_mm}
+                required
               />
             </div>
           </div>

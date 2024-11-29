@@ -313,7 +313,9 @@ const AdminHome = () => {
               )
             ) : (
               <h3 className="mt-2 text-slate-700">
-                {selectedLanguage ? homeInfo?.vision_en : homeInfo?.vision_mm}
+                {selectedLanguage === "EN"
+                  ? homeInfo?.vision_en
+                  : homeInfo?.vision_mm}
               </h3>
             )}
           </div>

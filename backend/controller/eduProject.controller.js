@@ -21,26 +21,40 @@ export const getAllEduProject = async (req, res) => {
 
 export const createEduProject = async (req, res) => {
   try {
-    const { title, description, location, date } = req.body;
+    const {
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      location_en,
+      location_mm,
+      date,
+    } = req.body;
     const logoImage = req.imageUrl;
     const imageId = req.imageId;
     if (
-      !title ||
-      !description ||
+      !title_en ||
+      !title_mm ||
+      !description_en ||
+      !description_mm ||
       !logoImage ||
-      !location ||
+      !location_en ||
+      !location_mm ||
       !date ||
       !logoImage
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
     const project = new EducationProject({
-      title,
-      description,
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
       date,
       logoImage,
       imageId,
-      location,
+      location_en,
+      location_mm,
     });
     await project.save();
     res.status(201).json({
@@ -59,7 +73,7 @@ export const getDetailsEduProject = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid Id" });
     }
-    const project = await EducationProject.findById(id).populate("courses");
+    const project = await EducationProject.findById(id);
     res.status(200).json({ content: project });
   } catch (error) {
     console.log(error.message);
@@ -90,8 +104,24 @@ export const deleteEduProject = async (req, res) => {
 export const updateEduProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, location, date } = req.body;
-    if (!title || !description || !location || !date) {
+    const {
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      location_en,
+      location_mm,
+      date,
+    } = req.body;
+    if (
+      !title_en ||
+      !title_mm ||
+      !description_en ||
+      !description_mm ||
+      !location_en ||
+      !location_mm ||
+      !date
+    ) {
       return res.status(400).json({ message: "All fields are required" });
     }
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -112,9 +142,12 @@ export const updateEduProject = async (req, res) => {
         const project = await EducationProject.findByIdAndUpdate(
           id,
           {
-            title,
-            description,
-            location,
+            title_en,
+            title_mm,
+            description_en,
+            description_mm,
+            location_en,
+            location_mm,
             date,
             logoImage: secure_url,
             imageId: public_id,
@@ -130,9 +163,12 @@ export const updateEduProject = async (req, res) => {
       const project = await EducationProject.findByIdAndUpdate(
         id,
         {
-          title,
-          description,
-          location,
+          title_en,
+          title_mm,
+          description_en,
+          description_mm,
+          location_en,
+          location_mm,
           date,
         },
         { new: true }

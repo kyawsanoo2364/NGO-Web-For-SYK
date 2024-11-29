@@ -3,7 +3,7 @@ import User from "../model/User.model.js";
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).populate("studentId");
+    const users = await User.find({});
     res.status(200).json({ users: users });
   } catch (error) {
     console.log(error.message);
@@ -25,8 +25,9 @@ export const getUser = async (req, res) => {
 export const updateUserForOnlyAdmin = async (req, res) => {
   try {
     const { id } = req.params;
-    const { fullName, email, birth, phone, role } = req.body;
-    if (!fullName || !email || !birth || !phone || !role) {
+    const { fullName, email, birth, phone, role, location } = req.body;
+
+    if (!fullName || !email || !birth || !phone || !role || !location) {
       return res
         .status(400)
         .json({ message: "400 - All fields are required!" });
@@ -34,12 +35,12 @@ export const updateUserForOnlyAdmin = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "400 - Invalid user id!" });
     }
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       id,
-      { fullName, email, role, birth, phone },
+      { fullName, email, role, birth, phone, location },
       { new: true }
     );
-    return res.status(200).json({ message: "User information updated!" });
+    return res.status(200).json({ message: "User information updated!", user });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: "Internal Server Error" });

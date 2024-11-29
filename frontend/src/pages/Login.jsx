@@ -5,12 +5,20 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/AuthStore";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { ModleView } from "../hoc";
+import { detectedLanguage } from "../utils";
+import { useLanguage } from "../store/LanguageStore";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { isLoading, login } = useAuthStore();
   const navigate = useNavigate();
+  const [translate, setTranslate] = useState(detectedLanguage());
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    setTranslate(detectedLanguage());
+  }, [language]);
 
   useEffect(() => {
     document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
@@ -41,13 +49,13 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <Input
             inputType={"email"}
-            placeholder={"Email"}
+            placeholder={translate.email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             inputType={"password"}
-            placeholder={"Password"}
+            placeholder={translate.password}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -55,7 +63,7 @@ const Login = () => {
             className="mt-2 hover:text-blue-400 hover:underline text-sm md:text-[16px]"
             to={"/forgotPassword"}
           >
-            Forgot Password?
+            {translate.forgotPassword}
           </Link>
           <motion.button
             whileHover={{ scale: 1.04 }}
@@ -65,14 +73,15 @@ const Login = () => {
           >
             {isLoading ? (
               <div className="flex gap-4 mx-auto text-center justify-center items-center">
-                <LoadingSpinner size={"size-6"} /> <span>Please wait...</span>
+                <LoadingSpinner size={"size-6"} />{" "}
+                <span>{translate.pleaseWait}</span>
               </div>
             ) : (
-              "Login"
+              translate.login
             )}
           </motion.button>
           <p className="mt-6 text-center text-sm md:text-[16px]">
-            Don't have account?{" "}
+            {translate.dontHaveAccount}{" "}
             <Link
               to={"/signup"}
               className="hover:text-blue-400 hover:underline"

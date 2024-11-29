@@ -33,11 +33,23 @@ export const getEvent = async (req, res) => {
 
 export const createEvents = async (req, res) => {
   try {
-    const { title, description, location, date, time } = req.body;
+    const {
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      location_en,
+      location_mm,
+      date,
+      time,
+    } = req.body;
     if (
-      !title ||
-      !description ||
-      !location ||
+      !title_en ||
+      !title_mm ||
+      !description_en ||
+      !description_mm ||
+      !location_en ||
+      !location_mm ||
       !date ||
       !time ||
       !req.imageUrl ||
@@ -46,9 +58,12 @@ export const createEvents = async (req, res) => {
       return res.status(400).json({ message: "All fields are required!" });
     }
     const newEvent = new Event({
-      title,
-      description,
-      location,
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      location_en,
+      location_mm,
       date,
       image: req.imageUrl,
       imageId: req.imageId,
@@ -65,15 +80,27 @@ export const createEvents = async (req, res) => {
 export const updateEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, location, date, time } = req.body;
+    const {
+      title_en,
+      title_mm,
+      description_en,
+      description_mm,
+      location_en,
+      location_mm,
+      date,
+      time,
+    } = req.body;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid event id" });
     }
 
     if (
-      !title ||
-      !description ||
-      !location ||
+      !title_en ||
+      !title_mm ||
+      !description_en ||
+      !description_mm ||
+      !location_en ||
+      !location_mm ||
       !date ||
       !time ||
       !req.imageUrl ||
@@ -84,9 +111,12 @@ export const updateEvent = async (req, res) => {
     const event = await Event.findByIdAndUpdate(
       id,
       {
-        title,
-        description,
-        location,
+        title_en,
+        title_mm,
+        description_en,
+        description_mm,
+        location_en,
+        location_mm,
         date,
         image: req.imageUrl,
         imageId: req.imageId,

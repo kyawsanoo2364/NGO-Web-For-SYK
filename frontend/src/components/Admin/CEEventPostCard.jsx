@@ -1,21 +1,30 @@
 import { FaUpload } from "react-icons/fa6";
 import Input from "../Input";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import TextEditor from "../TextEditor";
 import { useEventStore } from "../../store/EventStore";
 import { CgSpinnerTwo } from "react-icons/cg";
 import { motion } from "framer-motion";
+import { languages } from "../../Languages.json";
 
 const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
   const inputFile = useRef();
+
   const [imageFile, setImageFile] = useState(null);
-  const [previewImage, setPreviewImage] = useState(data?.img);
-  const [description, setDescritpion] = useState(data?.description);
+  const [previewImage, setPreviewImage] = useState(data?.image || null);
+  const [description_en, setDescritpion_en] = useState(
+    data?.description_en || ""
+  );
+  const [description_mm, setDescritpion_mm] = useState(
+    data?.description_mm || ""
+  );
   const [date, setDate] = useState(data?.date.split("T")[0]);
   const [time, setTime] = useState(data?.time);
-  const [title, setTitle] = useState(data?.title);
+  const [title_en, setTitle_en] = useState(data?.title_en || "");
+  const [title_mm, setTitle_mm] = useState(data?.title_mm || "");
   const { createEvent, updateEvent } = useEventStore();
-  const [location, setLocation] = useState(data?.location);
+  const [location_en, setLocation_en] = useState(data?.location_en || "");
+  const [location_mm, setLocation_mm] = useState(data?.location_mm || "");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (e) => {
@@ -37,16 +46,19 @@ const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
 
       if (isEdit) {
         const res = await updateEvent({
-          title,
-          description,
+          title_en,
+          title_mm,
+          description_en,
+          description_mm,
           imageFile,
-          location,
+          location_en,
+          location_mm,
           date,
           time,
-          imageUrl: data.imageUrl,
+          imageUrl: data.image,
           imageId: data.imageId,
 
-          id: data.id,
+          id: data._id,
         });
         if (res) {
           onClose();
@@ -54,10 +66,13 @@ const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
         }
       } else {
         const res = await createEvent({
-          title,
-          description,
+          title_en,
+          description_en,
+          title_mm,
+          description_mm,
           imageFile,
-          location,
+          location_en,
+          location_mm,
           date,
           time,
         });
@@ -75,9 +90,12 @@ const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
   return (
     <div className="fixed z-40 bg-black bg-opacity-40 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
       <div className="max-w-[800px] w-full h-full max-h-[600px] bg-white rounded-md p-4 relative">
-        <h1 className="text-2xl font-bold text-slate-700">
-          {isEdit ? "Edit Event" : "Create New Event"}
-        </h1>
+        <div className="flex justify-between">
+          <h1 className="text-2xl font-bold text-slate-700">
+            {isEdit ? "Edit Event" : "Create New Event"}
+          </h1>
+        </div>
+
         {isLoading && (
           <div className="absolute top-0 left-0 bottom-0 right-0 flex justify-center items-center z-40 bg-gray-300 bg-opacity-40 text-xl text-slate-700 font-semibold gap-4">
             <motion.div
@@ -115,12 +133,20 @@ const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
             </div>
 
             <Input
-              label={"Title"}
-              placeholder={"Enter Event Title"}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              label={languages.en.title}
+              placeholder={languages.en.enterTitle}
+              value={title_en}
+              onChange={(e) => setTitle_en(e.target.value)}
               required={true}
             />
+            <Input
+              label={languages.my.title}
+              placeholder={languages.my.enterTitle}
+              value={title_mm}
+              onChange={(e) => setTitle_mm(e.target.value)}
+              required={true}
+            />
+
             <Input
               label={"Date"}
               inputType={"date"}
@@ -135,18 +161,42 @@ const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
               onChange={(e) => setTime(e.target.value)}
               required={true}
             />
+
             <Input
-              label={"Location"}
+              label={languages.en.location}
               inputType={"text"}
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={location_en}
+              onChange={(e) => setLocation_en(e.target.value)}
               placeholder={"Enter your event location"}
               required={true}
             />
-            <TextEditor
-              onChangeValue={(value) => setDescritpion(value)}
-              content={data?.description}
+
+            <Input
+              label={languages.my.location}
+              inputType={"text"}
+              value={location_mm}
+              onChange={(e) => setLocation_mm(e.target.value)}
+              placeholder={languages.my.enterLocation}
+              required={true}
             />
+
+            <div className="my-5">
+              <label>Description EN</label>
+              <TextEditor
+                style={{ margin: 0, marginTop: "10px" }}
+                onChangeValue={(value) => setDescritpion_en(value)}
+                content={description_en}
+              />
+            </div>
+
+            <div className="my-5">
+              <label>အကြောင်းအရာ MM</label>
+              <TextEditor
+                style={{ margin: 0, marginTop: "10px" }}
+                onChangeValue={(value) => setDescritpion_mm(value)}
+                content={description_mm}
+              />
+            </div>
           </div>
           <div className="flex justify-between w-full px-4">
             <button

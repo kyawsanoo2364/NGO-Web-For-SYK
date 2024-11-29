@@ -55,6 +55,7 @@ const Footer = () => {
               <a href="/">{translate.home}</a>
               <a href="/blogs">{translate.blogs}</a>
               <a href="/events">{translate.events}</a>
+              <a href="/privacy-policy">Privacy Policy</a>
 
               {/**<button>Donate</button>
               <a href="/login">Sign in</a>*/}
