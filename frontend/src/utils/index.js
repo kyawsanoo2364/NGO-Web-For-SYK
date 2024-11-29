@@ -3,7 +3,17 @@ import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { languages } from "../Languages.json";
 
-export const BACKEND_URL = `${window.location.origin}`;
+export const getDomain = () => {
+  const { protocol, hostname, port } = window.location;
+
+  const domain = port
+    ? `${protocol}//${hostname}:${port}`
+    : `${protocol}//${hostname}`;
+
+  return domain;
+};
+
+export const BACKEND_URL = getDomain();
 
 export const PasswordChecker = {
   isValid: (password) => {
