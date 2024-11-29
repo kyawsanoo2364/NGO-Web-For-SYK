@@ -7,7 +7,7 @@ import { useEduProjectStore } from "../../store/EduProjectStore";
 import { detectedLanguage, handlePromise } from "../../utils";
 import EduCard from "../../components/Cards/EduCard";
 import { useLanguage } from "../../store/LanguageStore";
-import ToggleSwitchButton from "../../components/toggleSwitchButton";
+import ToggleSwitchButton from "../../components/ToggleSwitchButton";
 import { IoMdRefresh } from "react-icons/io";
 
 const AdminProjects = () => {
