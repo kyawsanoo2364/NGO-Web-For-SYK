@@ -6,7 +6,7 @@ import { FaPlus } from "react-icons/fa6";
 import { useEventStore } from "../../store/EventStore";
 import { memo } from "react";
 import { MdEventBusy } from "react-icons/md";
-import ToggleSwitchButton from "../../components/toggleSwitchButton";
+import ToggleSwitchButton from "../../components/ToggleSwitchButton";
 import { IoMdRefresh } from "react-icons/io";
 
 const AdminEventPostList = () => {
