@@ -78,6 +78,7 @@ function App() {
           setIsLoading(false);
           navigate("/500error");
         }
+        console.log(error);
       }
     };
     fetchData();
