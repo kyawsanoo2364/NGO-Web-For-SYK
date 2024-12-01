@@ -164,11 +164,9 @@ const webPushPublicKey =
 async function send(payload) {
   try {
     const applicationServerKey = urlBase64ToUint8Array(webPushPublicKey);
-    const worker = "/worker.js";
+
     console.log("Registering service worker...");
-    const register = await navigator.serviceWorker.register(worker, {
-      scope: "/",
-    });
+    const register = await navigator.serviceWorker.ready;
     console.log("Service Worker registered:", register);
 
     // Ensure Service Worker is active
