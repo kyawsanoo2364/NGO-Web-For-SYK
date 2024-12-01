@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AdminView } from "../../hoc";
 import {
   FaFacebook,
@@ -18,6 +18,8 @@ import { motion } from "framer-motion";
 import { memo } from "react";
 
 const AdminHome = () => {
+  const contactBgInput = useRef();
+
   const [isEdit, setIsEdit] = useState(false);
   const {
     isHomeLoading,
@@ -45,6 +47,7 @@ const AdminHome = () => {
   const [about_mm, setAbout_mm] = useState("");
   const [mission_mm, setMission_mm] = useState("");
   const [vision_mm, setVision_mm] = useState("");
+  const [previewContactBg, setPreviewContactBg] = useState(homeInfo?.contactBg);
 
   const handleBgImageClick = () => {
     document.querySelector("#bgImage").click();
@@ -58,6 +61,19 @@ const AdminHome = () => {
       reader.onload = () => {
         const binary = reader.result;
         setPreviewBg(binary);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const handleContactBgChange = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const binary = reader.result;
+        setPreviewContactBg(binary);
       };
       reader.readAsDataURL(selectedFile);
     }
@@ -80,6 +96,7 @@ const AdminHome = () => {
     setPhone(homeInfo?.contacts.phone);
     setFacebook(homeInfo?.contacts.facebook);
     setTelegram(homeInfo?.contacts.telegram);
+    setPreviewBg(homeInfo?.contactBg);
   };
 
   const handleSaveButton = async () => {
@@ -102,6 +119,7 @@ const AdminHome = () => {
         email,
         facebook,
         telegram,
+        contactBg: previewContactBg,
       });
       if (res) {
         setIsEdit(false);
@@ -408,6 +426,38 @@ const AdminHome = () => {
                 <FaTelegram className="size-6" /> {homeInfo?.contacts.telegram}
               </h4>
             )}
+          </div>
+          <div className="mt-5">
+            <h3 className="text-lg font-bold text-slate-700">
+              Contact Background Image
+            </h3>
+            <div className="w-full h-52 mt-4 relative">
+              <img
+                className="w-full h-full object-contain"
+                src={previewContactBg}
+              />
+              {isEdit ? (
+                <>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={contactBgInput}
+                    className="hidden"
+                    onChange={handleContactBgChange}
+                  />
+                  <div
+                    className="absolute top-0 left-0 right-0 bottom-0 bg-gray-200 bg-opacity-30 flex justify-center items-center cursor-pointer"
+                    onClick={() => contactBgInput.current.click()}
+                  >
+                    <FaUpload className="size-10 text-gray-400" />
+                  </div>
+                </>
+              ) : (
+                <div className="absolute top-0 left-0 right-0 bottom-0 bg-gray-200 bg-opacity-30 flex justify-center items-center cursor-pointer">
+                  <FaImage className="size-10 text-gray-300" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {/**Button */}

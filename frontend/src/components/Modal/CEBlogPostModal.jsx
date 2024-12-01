@@ -7,10 +7,11 @@ import { useBlogStore } from "../../store/BlogStore";
 import { FaSpinner } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import { languages } from "../../Languages.json";
+import { getDomain, pushNotifacation } from "../../utils";
 
 const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
   const inputFileRef = useRef(null);
-
+  const currentDomain = getDomain();
   const [previewImages, setPreviewImages] = useState(isEdit ? data?.media : []);
   const { createBlog, updateBlog } = useBlogStore();
   const [title_en, setTitle_en] = useState(isEdit ? data?.title_en : "");
@@ -91,6 +92,11 @@ const CEBlogPostModal = ({ onClose, isEdit = false, data }) => {
         if (response) {
           setIsLoading(false);
           onClose();
+          pushNotifacation(
+            response.data.content.media[0].url,
+            response.data.content.title_en,
+            `${currentDomain}/blogs/${response.data.content._id}`
+          );
         }
       } catch (error) {
         setIsLoading(false);

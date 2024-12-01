@@ -6,9 +6,12 @@ import { useEventStore } from "../../store/EventStore";
 import { CgSpinnerTwo } from "react-icons/cg";
 import { motion } from "framer-motion";
 import { languages } from "../../Languages.json";
+import htmlParser from "html-react-parser";
+import { getDomain, pushNotifacation } from "../../utils";
 
 const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
   const inputFile = useRef();
+  const currentDomain = getDomain();
 
   const [imageFile, setImageFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(data?.image || null);
@@ -79,6 +82,11 @@ const CEEventPostCard = ({ onClose, isEdit = false, data }) => {
         if (res) {
           setIsLoading(false);
           onClose();
+          pushNotifacation(
+            res.data.content.image,
+            res.data.content.title_en,
+            `${currentDomain}/event/${res.data.content._id}`
+          );
         }
       }
     } catch (error) {

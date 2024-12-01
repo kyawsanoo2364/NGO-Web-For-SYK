@@ -17,6 +17,7 @@ import staffRoutes from "./routers/staff.routes.js";
 import partnershipRoutes from "./routers/partnership.routes.js";
 import privacyRoutes from "./routers/privacy.routes.js";
 import path from "path";
+import webpush from "web-push";
 
 dotenv.config();
 const app = express();
@@ -29,7 +30,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json({ limit: "5mb" })); // Set JSON body size limit
+app.use(bodyParser.json({ limit: "5mb" })); // Set JSON body size limit
 app.use(express.urlencoded({ limit: "5mb", extended: true })); // Set URL-encoded body size limit
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -54,6 +55,22 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
+
+webpush.setVapidDetails(
+  "mailto:skyaw6736@gmail.com",
+  process.env.webPushPublicKey,
+  process.env.webPushPrivateKey
+);
+
+app.post("/api/subscribe", (req, res) => {
+  const { subscription, payload } = req.body;
+
+  res.status(201).json({});
+
+  webpush
+    .sendNotification(subscription, payload)
+    .catch((err) => console.log(err.message));
+});
 
 app.listen(process.env.PORT, () => {
   connectToDB();

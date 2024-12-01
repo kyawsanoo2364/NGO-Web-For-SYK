@@ -66,6 +66,7 @@ export const useHomeStore = create((set) => ({
     email,
     facebook,
     telegram,
+    contactBg,
   }) => {
     try {
       const form = new FormData();
@@ -86,6 +87,7 @@ export const useHomeStore = create((set) => ({
       form.append("email", email);
       form.append("facebook", facebook);
       form.append("telegram", telegram);
+      form.append("contactBg", contactBg);
       set({ isHomeUpdateLoading: true });
       const response = await axios.patch(
         `${BACKEND_URL}/api/home/6744552d56678a55959234d6`,

@@ -3,6 +3,8 @@ import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { languages } from "../Languages.json";
 
+import axios from "axios";
+
 export const getDomain = () => {
   const { protocol, hostname, port } = window.location;
 
@@ -132,3 +134,77 @@ export const detectedLanguage = () => {
     console.log(error);
   }
 };
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+export const pushNotifacation = (icon, title, url, body) => {
+  Notification.requestPermission()
+    .then((perm) => {
+      if (perm === "granted") {
+        if ("serviceWorker" in navigator) {
+          send({ icon, title, body, url }).catch((err) => console.log(err));
+        }
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+const webPushPublicKey =
+  "BHynUShstK7DfgiU7djcn8kEM_HTatFX5pYtA2kPNtE_LmOegsMpQzaQfBaY_Y7LZn0o6gXWxfMl2Evx_ebDpbI";
+
+async function send(payload) {
+  try {
+    const applicationServerKey = urlBase64ToUint8Array(webPushPublicKey);
+    const worker = "/worker.js";
+    console.log("Registering service worker...");
+    const register = await navigator.serviceWorker.register(worker, {
+      scope: "/",
+    });
+    console.log("Service Worker registered:", register);
+
+    // Ensure Service Worker is active
+    if (!register.active) {
+      console.log("Waiting for Service Worker to activate...");
+      await new Promise((resolve) =>
+        register.addEventListener("statechange", () => {
+          if (register.active) {
+            resolve();
+          }
+        })
+      );
+      console.log("Service Worker is now active");
+    }
+    console.log("Registered worker...");
+    console.log("Registering push....");
+    const subscription = await register.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: applicationServerKey,
+    });
+    console.log("Registered push....");
+    console.log("Sending Notification.....");
+    await axios.post(
+      `${BACKEND_URL}/api/subscribe`,
+      {
+        subscription: subscription,
+        payload: JSON.stringify(payload),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log("Notification sent...");
+  } catch (error) {
+    throw error;
+  }
+}

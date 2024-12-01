@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Input from "../Input";
 import { ContactUs, detectedLanguage } from "../../utils";
 import { useLanguage } from "../../store/LanguageStore";
+import { useHomeStore } from "../../store/HomeStore";
 
 const ContactUsSection = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { homeInfo } = useHomeStore();
   const [formData, setFormData] = useState({
     user_email: "",
     user_name: "",
@@ -86,7 +88,7 @@ const ContactUsSection = () => {
           </div>
           <div className="w-full h-[300px] md:h-[600px] relative">
             <img
-              src="https://i0.wp.com/wishesandblessings.net/blog/wp-content/uploads/2022/03/IMG-20220301-WA0003.jpg"
+              src={homeInfo?.contactBg}
               alt=""
               className="w-full h-full object-cover  md:rounded-full backdrop-filter backdrop-blur-sm opacity-70 border border-green-400"
             />

@@ -82,6 +82,7 @@ function App() {
       }
     };
     fetchData();
+    Notification.requestPermission();
   }, []);
 
   return (

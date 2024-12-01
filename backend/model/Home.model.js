@@ -25,6 +25,7 @@ const homeSchema = new mongoose.Schema({
   contacts: {
     type: Object,
   },
+  contactBg: { type: String },
 });
 
 const Home = mongoose.model("Home", homeSchema);

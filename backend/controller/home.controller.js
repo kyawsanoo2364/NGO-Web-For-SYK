@@ -100,6 +100,7 @@ export const UpdateHomePage = async (req, res) => {
       indeed,
       instagram,
       telegram,
+      contactBg,
     } = req.body;
     if (
       !heroTitle_en ||
@@ -115,7 +116,8 @@ export const UpdateHomePage = async (req, res) => {
       !activityVideoUrl ||
       !phone ||
       !email ||
-      !req.heroBackgroundImage
+      !req.heroBackgroundImage ||
+      !contactBg
     ) {
       return res.status(400).json({ message: "All fields are required!" });
     }
@@ -153,7 +155,7 @@ export const UpdateHomePage = async (req, res) => {
           vision_mm,
           mission_mm,
           activityVideoUrl,
-
+          contactBg,
           contacts: {
             phone,
             email,

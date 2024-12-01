@@ -5,11 +5,12 @@ import TextEditor from "../TextEditor";
 import { CgSpinnerAlt } from "react-icons/cg";
 import { motion } from "framer-motion";
 import { useEduProjectStore } from "../../store/EduProjectStore";
-import { handlePromise } from "../../utils";
+import { getDomain, handlePromise, pushNotifacation } from "../../utils";
 import { languages } from "../../Languages.json";
 
 const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
   const inputFileRef = useRef(null);
+  const currentDomain = getDomain();
   const [previewImage, setPreviewImage] = useState(
     edit ? data?.logoImage : null
   );
@@ -91,6 +92,11 @@ const CEEduProjectCardModal = ({ onClose, edit = false, data }) => {
       if (res) {
         setIsLoading(false);
         onClose();
+        pushNotifacation(
+          res.data.project.logoImage,
+          res.data.project.title_en,
+          `${currentDomain}/project/${res.data.project._id}`
+        );
       }
     }
   };
