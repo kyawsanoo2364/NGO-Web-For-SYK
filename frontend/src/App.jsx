@@ -62,18 +62,6 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if ("serviceWorker" in navigator) {
-          window.addEventListener("load", () => {
-            navigator.serviceWorker
-              .register("/service-worker.js")
-              .then((registration) =>
-                console.log("Service Worker registered:", registration)
-              )
-              .catch((err) =>
-                console.error("Service Worker registration failed:", err)
-              );
-          });
-        }
         setIsLoading(true);
         await fetchUser();
         await getHomeInfo();
@@ -94,7 +82,20 @@ function App() {
       }
     };
     fetchData();
-    Notification.requestPermission();
+    Notification.requestPermission().then((perm) => {
+      if (perm === "granted") {
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .register("/service-worker.js", { updateViaCache: "none" })
+            .then((registration) =>
+              console.log("Service Worker registered:", registration)
+            )
+            .catch((err) =>
+              console.error("Service Worker registration failed:", err)
+            );
+        }
+      }
+    });
   }, []);
 
   return (

@@ -96,7 +96,7 @@ const AdminHome = () => {
     setPhone(homeInfo?.contacts.phone);
     setFacebook(homeInfo?.contacts.facebook);
     setTelegram(homeInfo?.contacts.telegram);
-    setPreviewBg(homeInfo?.contactBg);
+    setPreviewContactBg(homeInfo?.contactBg);
   };
 
   const handleSaveButton = async () => {
