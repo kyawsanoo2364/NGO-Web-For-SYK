@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
-import dotenv from "dotenv";
 import VerifyEmail from "./pages/VerifyEmail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,11 +20,9 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminHome from "./pages/Admin/AdminHome";
 import { useHomeStore } from "./store/HomeStore";
 import AdminEventPostList from "./pages/Admin/AdminEventPostList";
-import Playground from "./playground/Playground";
 import AdminBlogs from "./pages/Admin/AdminBlogs";
 import { useBlogStore } from "./store/BlogStore";
 import AdminProjects from "./pages/Admin/AdminProjects";
-import { useEduProjectStore } from "./store/EduProjectStore";
 import LoadingPage from "./pages/LoadingPage";
 import AdminStaffsPage from "./pages/Admin/AdminStaffsPage";
 import AdminPartnershipsPage from "./pages/Admin/AdminPartnershipsPage";
@@ -42,7 +39,7 @@ function App() {
   const { user, fetchUser } = useAuthStore();
   const { getHeader, getHomeInfo, header } = useHomeStore();
   const { getBlogs } = useBlogStore();
-  const { projects, getAllProjects } = useEduProjectStore();
+
   const [isLoading, setIsLoading] = useState(true);
   const { getPartnerships } = usePartnershipsStore();
   const { getPrivacy } = usePrivacyStore();
