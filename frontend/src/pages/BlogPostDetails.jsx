@@ -140,13 +140,13 @@ const BlogPostDetails = () => {
                                   ? b.title_en
                                   : b.title_mm}
                               </h3>
-                              <p className="line-clamp-2 text-ellipsis text-sm text-slate-500">
+                              <div className="line-clamp-2 text-ellipsis text-sm text-slate-500">
                                 {parser(
                                   language === "English"
                                     ? b.description_en
                                     : b.description_mm
                                 )}
-                              </p>
+                              </div>
                             </div>
                           </Link>
                         </div>

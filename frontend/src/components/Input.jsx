@@ -26,7 +26,7 @@ const Input = ({
         placeholder={placeholder}
         required={required}
         name={name}
-        value={value}
+        value={value || ""}
         onChange={onChange}
         className="px-4 pr-10 w-full py-2 md:py-3 border text-[16px] md:text-lg outline-none focus:ring-2 focus:ring-green-400 rounded focus:ring-offset-2 focus:ring-offset-gray-300"
       />

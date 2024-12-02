@@ -100,14 +100,14 @@ const ProjectPostDetails = () => {
                       ? project?.location_en
                       : project?.location_mm}
                   </p>
-                  <p className="mt-2">
+                  <div className="mt-2">
                     {project &&
                       htmlParser(
                         language === "English"
                           ? project?.description_en
                           : project?.description_mm
                       )}
-                  </p>
+                  </div>
                 </div>
 
                 <Share

@@ -83,13 +83,13 @@ const EventDetails = () => {
                     <FaRegClock />
                     {formatTime(data?.time)}
                   </p>
-                  <p className="mt-3 text-slate-700  ProseMirror">
+                  <div className="mt-3 text-slate-700  ProseMirror">
                     {parser(
                       language === "English"
                         ? data?.description_en || ""
                         : data?.description_mm || ""
                     )}
-                  </p>
+                  </div>
                 </div>
                 <Share shareTitle={data?.title_en} currentUrl={currentUrl} />
               </div>
@@ -132,13 +132,13 @@ const EventDetails = () => {
                                   ? event?.title_en
                                   : event?.title_mm}
                               </h2>
-                              <p className="pl-2 line-clamp-3 my-1 lg:text-[16px] text-sm">
+                              <div className="pl-2 line-clamp-3 my-1 lg:text-[16px] text-sm">
                                 {parser(
                                   language === "English"
                                     ? event?.description_en
                                     : event?.description_mm
                                 )}
-                              </p>
+                              </div>
                               <p className="text-[10px] md:text-sm lg:text-[16px] flex items-center gap-1 pl-2 text-slate-700 line-clamp-1">
                                 <FaMapLocationDot />{" "}
                                 {language === "English"

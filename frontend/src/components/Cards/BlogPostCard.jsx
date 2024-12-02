@@ -98,17 +98,17 @@ const BlogPostCard = ({
             {/**<img src={img} className="w-full md:w-[200px] h-full object-cover" /> */}
           </div>
           <div className="flex-1">
-            <h2 className="line-clamp-2 text-xl font-bold text-slate-800">
+            <div className="line-clamp-2 text-xl font-bold text-slate-800">
               {title}
-            </h2>
+            </div>
             <div className="flex gap-2 flex-row items-center mt-1  text-gray-600">
               <GoClock />
               {time}
             </div>
             <div>
-              <p className="line-clamp-4 text-slate-600 text-sm ">
+              <div className="line-clamp-4 text-slate-600 text-sm ">
                 {parser(description)}
-              </p>
+              </div>
             </div>
             <div className="flex justify-center md:justify-end">
               <Link

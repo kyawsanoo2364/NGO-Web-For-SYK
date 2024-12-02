@@ -15,7 +15,7 @@ export const getDomain = () => {
   return domain;
 };
 
-export const BACKEND_URL = getDomain();
+export const BACKEND_URL = "http://localhost:5000";
 
 export const PasswordChecker = {
   isValid: (password) => {
@@ -159,7 +159,7 @@ export const pushNotifacation = (icon, title, url, body) => {
 };
 
 const webPushPublicKey =
-  "BHynUShstK7DfgiU7djcn8kEM_HTatFX5pYtA2kPNtE_LmOegsMpQzaQfBaY_Y7LZn0o6gXWxfMl2Evx_ebDpbI";
+  "BKNDxOqsBMQR48bFqu7tb74cCdiJKXB7co2hQY_nt0Qswhmlqiszb-lj83Ph_uz28DBwTsI6qpfo85E1cxg8oKQ";
 
 async function send(payload) {
   try {
@@ -193,7 +193,7 @@ async function send(payload) {
       `${BACKEND_URL}/api/subscribe`,
       {
         subscription: subscription,
-        payload: JSON.stringify(payload),
+        payload: payload,
       },
       {
         headers: {

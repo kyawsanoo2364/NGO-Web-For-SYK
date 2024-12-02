@@ -118,7 +118,7 @@ const EventCard = ({
         <div className="w-full h-[150px] relative ">
           <img src={img} className="w-full h-full rounded object-cover " />
           <div className=" absolute px-4 py-3 bottom-0 right-0 rounded bg-orange-500 text-white text-lg font-semibold">
-            <h2>{moment(date).format("ll")}</h2>
+            <h2>{moment(new Date(date).toISOString()).format("ll")}</h2>
           </div>
         </div>
         <div className="flex flex-col mt-3">

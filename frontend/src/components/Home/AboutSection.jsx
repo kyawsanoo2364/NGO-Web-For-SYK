@@ -71,7 +71,7 @@ const AboutSection = () => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
           id="visual"
           viewBox="0 0 900 600"
           className="size-[100%]"
@@ -80,8 +80,8 @@ const AboutSection = () => {
           <path
             d="M0 397L21.5 411.5C43 426 86 455 128.8 466.8C171.7 478.7 214.3 473.3 257.2 464.3C300 455.3 343 442.7 385.8 449.7C428.7 456.7 471.3 483.3 514.2 492.3C557 501.3 600 492.7 642.8 474C685.7 455.3 728.3 426.7 771.2 422C814 417.3 857 436.7 878.5 446.3L900 456L900 601L878.5 601C857 601 814 601 771.2 601C728.3 601 685.7 601 642.8 601C600 601 557 601 514.2 601C471.3 601 428.7 601 385.8 601C343 601 300 601 257.2 601C214.3 601 171.7 601 128.8 601C86 601 43 601 21.5 601L0 601Z"
             fill="#17ff00"
-            stroke-linecap="round"
-            stroke-linejoin="miter"
+            strokeLinecap="round"
+            strokeLinejoin="miter"
           />
         </svg>
       </motion.div>

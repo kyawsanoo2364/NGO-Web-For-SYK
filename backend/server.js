@@ -58,8 +58,8 @@ if (process.env.NODE_ENV === "production") {
 
 webpush.setVapidDetails(
   "mailto:skyaw6736@gmail.com",
-  process.env.webPushPublicKey,
-  process.env.webPushPrivateKey
+  process.env.REACT_APP_WebPushPublicKey,
+  process.env.REACT_APP_WebPushPrivateKey
 );
 
 app.post("/api/subscribe", (req, res) => {
@@ -68,7 +68,7 @@ app.post("/api/subscribe", (req, res) => {
   res.status(201).json({});
 
   webpush
-    .sendNotification(subscription, payload)
+    .sendNotification(subscription, JSON.stringify(payload))
     .catch((err) => console.log(err.message));
 });
 
