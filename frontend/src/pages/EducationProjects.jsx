@@ -52,29 +52,35 @@ const EducationProjects = () => {
               Education Projects
             </h1>
           </div>
-          <div className="mt-0">
-            <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-5 max-h-[800px] h-full overflow-y-auto overflow-x-hidden p-4">
-              {/**Edu Project here */}
-              {isLoading
-                ? [...new Array(3)].map((_, idx) => (
-                    <EduCard key={"edu+" + idx} idx={idx + 1} isLoading />
-                  ))
-                : projects?.map((p, idx) => (
-                    <EduCard
-                      key={"edu+" + idx}
-                      idx={idx + 1}
-                      data={p}
-                      language={language}
-                      translate={translate}
-                    />
-                  ))}
+          {!isLoading && projects?.length === 0 ? (
+            <div className="flex justify-center items-center mt-40 text-lg font-bold text-slate-500">
+              No project yet.
             </div>
-            {/**
+          ) : (
+            <div className="mt-0">
+              <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-5 max-h-[800px] h-full overflow-y-auto overflow-x-hidden p-4">
+                {/**Edu Project here */}
+                {isLoading
+                  ? [...new Array(3)].map((_, idx) => (
+                      <EduCard key={"edu+" + idx} idx={idx + 1} isLoading />
+                    ))
+                  : projects?.map((p, idx) => (
+                      <EduCard
+                        key={"edu+" + idx}
+                        idx={idx + 1}
+                        data={p}
+                        language={language}
+                        translate={translate}
+                      />
+                    ))}
+              </div>
+              {/**
              *  <button className="mx-auto border px-4 py-2 hover:bg-slate-200">
               Load More...
             </button>
              */}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </>

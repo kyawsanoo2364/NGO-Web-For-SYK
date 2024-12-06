@@ -31,7 +31,7 @@ const EducationProject = () => {
     }
     fetchData();
   }, []);
-  if (!isLoading && !projects) return null;
+  if (!isLoading && (!projects || projects?.length === 0)) return null;
   return (
     <div className="my-10">
       <div className="container max-w-6xl mx-auto flex w-full flex-col ">

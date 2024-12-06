@@ -3,7 +3,6 @@ import { useAuthStore } from "../store/AuthStore";
 import { FiLogOut } from "react-icons/fi";
 import { IoClose, IoMenuOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
 import { useHomeStore } from "../store/HomeStore";
 import LanguageDropdown from "./LanguageDropdown";
 import { detectedLanguage } from "../utils";
@@ -53,14 +52,7 @@ const Navbar = () => {
             >
               {translate.aboutUs}
             </a>
-            <a
-              href="/#partnerships"
-              className={`${
-                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
-              }  hover:font-semibold`}
-            >
-              {translate.partnerships}
-            </a>
+
             <Link
               to={"/blogs"}
               className={`${
@@ -77,22 +69,14 @@ const Navbar = () => {
             >
               {translate.events}
             </Link>
-            <a
-              href="/education-projects"
+            <Link
+              to="/education-projects"
               className={`${
                 language === "Myanmar" ? "text-[12px]" : "text-[16px]"
               }  hover:font-semibold`}
             >
               {translate.projects}
-            </a>
-            <a
-              href="#"
-              className={`${
-                language === "Myanmar" ? "text-[12px]" : "text-[16px]"
-              }  hover:font-semibold`}
-            >
-              {translate.contactUs}
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -155,13 +139,7 @@ const Navbar = () => {
           >
             {translate.aboutUs}
           </a>
-          <a
-            href="/#partnerships"
-            className=" hover:font-semibold "
-            onClick={() => setShowMenu(false)}
-          >
-            {translate.partnerships}
-          </a>
+
           <Link
             to={"/blogs"}
             className=" hover:font-semibold "
@@ -182,13 +160,6 @@ const Navbar = () => {
             onClick={() => setShowMenu(false)}
           >
             {translate.projects}
-          </a>
-          <a
-            href="#"
-            className=" hover:font-semibold "
-            onClick={() => setShowMenu(false)}
-          >
-            {translate.contact}
           </a>
         </div>
       )}

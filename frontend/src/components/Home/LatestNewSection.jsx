@@ -38,6 +38,10 @@ const LatestNewSection = () => {
     });
   };
 
+  if (blogs?.length === 0) {
+    return null;
+  }
+
   return (
     <div className=" my-10">
       <div className="container mx-auto relative">

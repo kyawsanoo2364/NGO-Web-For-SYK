@@ -24,9 +24,11 @@ const EventSection = () => {
     fetchData();
   }, []);
 
-  if (!isLoading && !events) {
+  if (!isLoading && (!events || events?.length === 0)) {
     return null;
   }
+
+  console.log(events);
 
   return (
     <div className="relative">
