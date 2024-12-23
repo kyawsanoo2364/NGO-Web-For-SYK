@@ -49,6 +49,9 @@ export const useBlogStore = create((set) => ({
       throw error;
     }
   },
+  setBlogs: async (data) => {
+    set({ blogs: data });
+  },
   getBlogDetails: async (id) => {
     const [err, res] = await handlePromise(
       axios.get(`${BACKEND_URL}/api/blogs/details/${id}`)

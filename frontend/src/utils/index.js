@@ -15,7 +15,7 @@ export const getDomain = () => {
   return domain;
 };
 
-export const BACKEND_URL = getDomain();
+export const BACKEND_URL = "http://localhost:5000";
 
 export const PasswordChecker = {
   isValid: (password) => {

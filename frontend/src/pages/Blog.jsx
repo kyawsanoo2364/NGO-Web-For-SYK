@@ -10,17 +10,41 @@ import CEBlogPostModal from "../components/Modal/CEBlogPostModal";
 import { useBlogStore } from "../store/BlogStore";
 import moment from "moment";
 import { useAuthStore } from "../store/AuthStore";
-import { detectedLanguage } from "../utils";
+import { BACKEND_URL, detectedLanguage } from "../utils";
 import { useLanguage } from "../store/LanguageStore";
 import { BiSolidBookContent } from "react-icons/bi";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Blog = () => {
   const [showCEModal, setShowCEModal] = useState(false);
-  const { getBlogs, blogs } = useBlogStore();
+  const { getBlogs, blogs, setBlogs } = useBlogStore();
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuthStore();
   const [translate, setTranslate] = useState(detectedLanguage());
   const { language } = useLanguage();
+  const [showMoreButton, setShowMoreButton] = useState(false);
+  const [loadingShowMore, setLoadingShowMore] = useState(false);
+
+  const handleClickLoadMoreButton = async () => {
+    try {
+      setLoadingShowMore(true);
+      const response = await axios.get(
+        `${BACKEND_URL}/api/blogs?skip=${blogs.length}`
+      );
+      setBlogs([...blogs, ...response.data.contents]);
+      setLoadingShowMore(false);
+      if (response.data.contents.length > 9) {
+        setShowMoreButton(true);
+      } else {
+        setShowMoreButton(false);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrongs");
+      setLoadingShowMore(false);
+    }
+  };
 
   useEffect(() => {
     setTranslate(detectedLanguage());
@@ -30,6 +54,11 @@ const Blog = () => {
     try {
       setIsLoading(true);
       await getBlogs();
+      if (blogs.length > 9) {
+        setShowMoreButton(true);
+      } else {
+        setShowMoreButton(false);
+      }
       if (blogs) setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -40,6 +69,7 @@ const Blog = () => {
   useEffect(() => {
     fetchData();
   }, [language]);
+
   useEffect(() => {
     document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -115,9 +145,15 @@ const Blog = () => {
                     translate={translate}
                   />
                 ))}
-                {/**  <button className="px-4 py-2 border rounded font-semibold hover:bg-gray-200 ">
-                  Load More...
-                </button> */}
+                {showMoreButton && (
+                  <button
+                    className="px-4 py-2 border rounded font-semibold hover:bg-gray-200 disabled:opacity-80"
+                    onClick={handleClickLoadMoreButton}
+                    disabled={loadingShowMore}
+                  >
+                    {loadingShowMore ? "Loading..." : "Load More ..."}
+                  </button>
+                )}
               </div>
             )}
           </div>
